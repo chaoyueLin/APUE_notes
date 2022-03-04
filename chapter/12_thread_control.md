@@ -969,11 +969,11 @@
 
 1. `pthread_rwlockattr_init/pthread_rwlockattr_destroy`函数：初始化/销毁读写锁属性
 
-	```
-	#include<pthread.h>
-	int pthread_rwlockattr_init(pthread_rwlockattr_t *attr);
-	int pthread_rwlockattr_destroy(pthread_rwlockattr_t *attr);	
-	```
+	
+		#include<pthread.h>
+		int pthread_rwlockattr_init(pthread_rwlockattr_t *attr);
+		int pthread_rwlockattr_destroy(pthread_rwlockattr_t *attr);	
+	
 
 	- 参数：
 		- `attr`：指向待初始化/销毁的读写锁属性
@@ -983,13 +983,13 @@
 
 2. 读写锁支持的唯一属性是进程共享属性。它与互斥量的进程共享属性是相同的。获取/设置这一属性的函数为：
 
-	```
-	#include<pthread.h>
-	int pthread_rwlockattr_getpshared(const pthread_rwlockattr_t * restrict attr,
-		int *restrict pshared);
-	int pthread_rwlockattr_setpshared(pthread_rwlockattr_t *attr,
-		int pshared);
-	```
+	
+		#include<pthread.h>
+		int pthread_rwlockattr_getpshared(const pthread_rwlockattr_t * restrict attr,
+			int *restrict pshared);
+		int pthread_rwlockattr_setpshared(pthread_rwlockattr_t *attr,
+			int pshared);
+	
 	- 参数：
 		- `attr`：指向待获取/设置的读写锁属性对象
 		- `pthread_rwlockattr_getpshared`函数，`pshared`：一个指向`int*`的指针，获取的读写锁的进程共享属性的值存放在它指向的内存
@@ -1007,11 +1007,11 @@
 
 1. `pthread_condattr_init/pthread_condattr_destroy`函数：初始化/销毁条件变量属性
 
-	```
-	#include<pthread.h>
-	int pthread_condattr_init(pthread_condattr_t *attr);
-	int pthread_condattr_destroy(pthread_condattr_t *attr);	
-	```
+	
+		#include<pthread.h>
+		int pthread_condattr_init(pthread_condattr_t *attr);
+		int pthread_condattr_destroy(pthread_condattr_t *attr);	
+	
 
 	- 参数：
 		- `attr`：指向待初始化/销毁的条件变量属性
@@ -1025,13 +1025,13 @@
 
 3. `pthread_condattr_getpshared/pthread_condattr_setpshared`函数：获取/设置条件变量的进程共享属性。条件变量的进程共享属性与互斥量的进程共享属性是相同的。
 
-	```
-	#include<pthread.h>
-	int pthread_condattr_getpshared(const pthread_condattr_t * restrict attr,
-		int *restrict pshared);
-	int pthread_condattr_setpshared(pthread_condattr_t *attr,
-		int pshared);
-	```
+	
+		#include<pthread.h>
+		int pthread_condattr_getpshared(const pthread_condattr_t * restrict attr,
+			int *restrict pshared);
+		int pthread_condattr_setpshared(pthread_condattr_t *attr,
+			int pshared);
+	
   
 	- 参数：
 		- `attr`：指向待获取/设置的条件变量属性对象
@@ -1046,13 +1046,13 @@
 
 4. `pthread_condattr_getclock/pthread_condattr_setclock`函数：获取/设置条件变量的时钟属性：
 
-	```
-	#include<pthread.h>
-	int pthread_condattr_getclock(const pthread_condattr_t * restrict attr,
-		int *restrict clock_id);
-	int pthread_condattr_setclock(pthread_condattr_t *attr,
-		int clock_id);
-	```
+	
+		#include<pthread.h>
+		int pthread_condattr_getclock(const pthread_condattr_t * restrict attr,
+			int *restrict clock_id);
+		int pthread_condattr_setclock(pthread_condattr_t *attr,
+			int clock_id);
+	
 	- 参数：
 		- `attr`：指向待获取/设置的条件变量属性对象
 		- `pthread_condattr_getclock`函数，`clock_id`：一个指向`int*`的指针，获取的条件变量的时钟属性的值存放在它指向的内存
@@ -1071,11 +1071,11 @@
 
 1. `pthread_barrierattr_init/pthread_barrierattr_destroy`函数：初始化/销毁屏障属性
 
-	```
-	#include<pthread.h>
-	int pthread_barrierattr_init(pthread_barrierattr_t *attr);
-	int pthread_barrierattr_destroy(pthread_barrierattr_t *attr);	
-	```
+	
+		#include<pthread.h>
+		int pthread_barrierattr_init(pthread_barrierattr_t *attr);
+		int pthread_barrierattr_destroy(pthread_barrierattr_t *attr);	
+	
 
 	- 参数：
 		- `attr`：指向待初始化/销毁的屏障属性
@@ -1085,13 +1085,13 @@
 
 2. 屏障支持的唯一属性是进程共享属性。它与互斥量的进程共享属性是相同的。获取/设置这一属性的函数为：
 
-	```
-	#include<pthread.h>
-	int pthread_barrierattr_getpshared(const pthread_barrierattr_t * restrict attr,
-		int *restrict pshared);
-	int pthread_barrierattr_setpshared(pthread_barrierattr_t *attr,
-		int pshared);
-	```
+	
+		#include<pthread.h>
+		int pthread_barrierattr_getpshared(const pthread_barrierattr_t * restrict attr,
+			int *restrict pshared);
+		int pthread_barrierattr_setpshared(pthread_barrierattr_t *attr,
+			int pshared);
+	
 	- 参数：
 		- `attr`：指向待获取/设置的屏障属性对象
 		- `pthread_barrierattr_getpshared`函数，`pshared`：一个指向`int*`的指针，获取的屏障的进程共享属性的值存放在它指向的内存
@@ -1121,12 +1121,12 @@
 
 4. `ftrylockfile/flockfile/funlockfile`函数：为`FILE`对象加锁/解锁
 
-	```
-	#include<stdio.h>
-	int ftrylockfile(FILE *fp);
-	void flockfile(FILE *fp);
-	void funlockfile(FILE *fp);
-	```
+	
+		#include<stdio.h>
+		int ftrylockfile(FILE *fp);
+		void flockfile(FILE *fp);
+		void funlockfile(FILE *fp);
+		
 	- 参数：
 		- `fp`：指向待加锁/解锁的对象
 	- `ftrylockfile`返回值：
@@ -1136,62 +1136,62 @@
 	当处理多个`FILE`对象时，需要注意潜在的死锁，需要对所有的锁仔细排序	
 5. 示例：
 
-	```
-#include <stdio.h>
-#include<pthread.h>
-#include<string.h>
-#include<errno.h>
-#include<unistd.h>
-typedef void * VType;
-VType thread_func (VType arg)
-{
-
-    fprintf(stdout,"In thread 0x%x ,line 1\n",pthread_self());
-    sleep(1);
-    fprintf(stdout,"In thread 0x%x ,line 2\n",pthread_self());
-    sleep(1);
-    fprintf(stdout,"In thread 0x%x ,line 3\n",pthread_self());
-}
-int main(void)
-{
-    pthread_t ids[2];
-    pthread_create(ids,NULL,thread_func,0);
-    pthread_create(ids+1,NULL,thread_func,0);
-    pthread_join(ids[0],NULL);
-    pthread_join(ids[1],NULL);
-    return 0;
-}
-	```
+	
+	#include <stdio.h>
+	#include<pthread.h>
+	#include<string.h>
+	#include<errno.h>
+	#include<unistd.h>
+	typedef void * VType;
+	VType thread_func (VType arg)
+	{
+	
+	    fprintf(stdout,"In thread 0x%x ,line 1\n",pthread_self());
+	    sleep(1);
+	    fprintf(stdout,"In thread 0x%x ,line 2\n",pthread_self());
+	    sleep(1);
+	    fprintf(stdout,"In thread 0x%x ,line 3\n",pthread_self());
+	}
+	int main(void)
+	{
+	    pthread_t ids[2];
+	    pthread_create(ids,NULL,thread_func,0);
+	    pthread_create(ids+1,NULL,thread_func,0);
+	    pthread_join(ids[0],NULL);
+	    pthread_join(ids[1],NULL);
+	    return 0;
+	}
+	
 	运行结果如下。可以看到对`stdio`这个`FILE`对象的访问是交叉进行的。
 	![thread_FILE](../imgs/thread_control/thread_FILE.JPG)
 
 	我们修改`thread_func`函数为：
 
-	```
-VType thread_func (VType arg)
-{
-    flockfile(stdout);
-    fprintf(stdout,"In thread 0x%x ,line 1\n",pthread_self());
-    sleep(1);
-    fprintf(stdout,"In thread 0x%x ,line 2\n",pthread_self());
-    sleep(1);
-    fprintf(stdout,"In thread 0x%x ,line 3\n",pthread_self());
-    funlockfile(stdout);
-}
-	```
+	
+	VType thread_func (VType arg)
+	{
+	    flockfile(stdout);
+	    fprintf(stdout,"In thread 0x%x ,line 1\n",pthread_self());
+	    sleep(1);
+	    fprintf(stdout,"In thread 0x%x ,line 2\n",pthread_self());
+	    sleep(1);
+	    fprintf(stdout,"In thread 0x%x ,line 3\n",pthread_self());
+	    funlockfile(stdout);
+	}
+
 
 	运行结果如下。可以看到对`stdio`这个`FILE`对象的访问是获得锁之后才能访问的。
 	![thread_FILE_lock](../imgs/thread_control/thread_FILE_lock.JPG)
 
 6. 对于线程可重入版本的标准`IO`函数，标准`IO`函数都首先对`FILE`加锁，然后操作完成后再对`FILE`解锁。那么在进行一次一个字符的`IO`时，就会出现严重的性能下降。此时提供了不加锁版本的基于字符的标准`IO`函数：
 
-	```
-	#include<stdio.h>
-	int getchar_unlocked(void);
-	int getc_unlocked(FILE *fp);
-	int putchar_unlocked(int c);
-	int putc_unlocked(int c,FILE *fp);
-	```
+	
+		#include<stdio.h>
+		int getchar_unlocked(void);
+		int getc_unlocked(FILE *fp);
+		int putchar_unlocked(int c);
+		int putc_unlocked(int c,FILE *fp);
+
 	- 参数：
 		- `fp`：指向待处理的`FILE`对象
 		- `c`：待写入的字符
@@ -1216,10 +1216,10 @@ VType thread_func (VType arg)
 
 4. `pthread_key_create`函数：创建线程私有数据的键
 
-	```
-	#include<pthread.h>
-	int pthread_key_create(pthread_key_t *keyp,void (*destructor)(void*));
-	```
+	
+		#include<pthread.h>
+		int pthread_key_create(pthread_key_t *keyp,void (*destructor)(void*));
+	
 	- 参数：
 		- `keyp`：指向键的指针
 		- `destructor`：一个函数指针，该函数返回`void`，参数是`void*`。该函数是键的析构函数。
@@ -1254,10 +1254,10 @@ VType thread_func (VType arg)
 
 7. 对所有的线程，我们可以调用`pthread_key_delete`来取消键与线程私有数据值之间绑定
 
-	```
-	#include<pthread.h>
-	int pthread_key_delete(pthread_key_t key);
-	```
+	
+		#include<pthread.h>
+		int pthread_key_delete(pthread_key_t key);
+	
 	- 参数：
 		- `key`：键
 	- 返回值：
@@ -1268,11 +1268,11 @@ VType thread_func (VType arg)
 
 8. `pthread_once`函数：
 
-	```
-	#include<pthread.h>
-	pthread_once_t initflag=PTHREAD_ONCE_INIT;
-	int pthread_once(pthread_once_t *initflag,void (*initfn)(void));
-	```
+	
+		#include<pthread.h>
+		pthread_once_t initflag=PTHREAD_ONCE_INIT;
+		int pthread_once(pthread_once_t *initflag,void (*initfn)(void));
+	
 	- 参数：
 		- `initflag`：它指向一个`pthread_once_t`变量，该变量必须是个全局变量或者静态变量（即非局部变量），且该变量必须初始化为`PTHREAD_ONCE_INIT`
 		- `initfn`：初始化例程
@@ -1284,11 +1284,11 @@ VType thread_func (VType arg)
 
 9. `pthread_setspecific/pthread_getspecific`函数：将键与线程私有数据绑定 / 根据键获取它绑定的线程私有数据
 
-	```
-	#include<pthread.h>
-	void *pthread_getspecific(pthread_key_t key);
-	int pthread_setspecific(pthread_key_t key,const void*value);
-	```	
+	
+		#include<pthread.h>
+		void *pthread_getspecific(pthread_key_t key);
+		int pthread_setspecific(pthread_key_t key,const void*value);
+	
 	- 参数：
 		- `key`：键 
 		- `value`：绑定的线程私有数据
@@ -1302,52 +1302,52 @@ VType thread_func (VType arg)
 
 10. 示例：
 
-	```
-#include <stdio.h>
-#include<pthread.h>
-#include<string.h>
-#include<errno.h>
-typedef void * VType;
-pthread_key_t main_key;
-pthread_key_t thread_key;
-pthread_once_t initflag=PTHREAD_ONCE_INIT;
-void destructor_main_key(VType data)
-{
-    printf("\tdestructor_main_key is called:data is %d\n",data);
-}
-void destructor_thread_key(VType data)
-{
-    printf("\tdestructor_thread_key is called:data is %d\n",data);
-}
-void initfn()
-{
-    pthread_key_create(&thread_key,destructor_thread_key);
-    printf("\tthread_key init once\n");
-}
-VType thread_func (VType arg)
-{
-    int ok=pthread_once(&initflag,initfn);
-    if(ok!=0) printf("Init thread_key failed ,because %s\n",strerror(ok));
-    pthread_setspecific(main_key,arg);
-    VType val=pthread_getspecific(main_key);
-    printf("In thread 0x%x, thread local var is %d\n",pthread_self(),val);
-}
-int main(void)
-{
-    pthread_key_create(&main_key,destructor_main_key);
-    pthread_t ids[5];
-    for(int i=0;i<5;i++)
-    {
-        pthread_create(ids+i,NULL,thread_func,i+10);
-    }
-    for(int i=0;i<5;i++)
-    {
-        int ok=pthread_join(ids[i],NULL);
-        if(ok!=0) printf("wait thread 0x%x failed ,because %s\n",ids[i],strerror(ok));
-    }
-    return 0;
-}
-	```
+	
+		#include <stdio.h>
+		#include<pthread.h>
+		#include<string.h>
+		#include<errno.h>
+		typedef void * VType;
+		pthread_key_t main_key;
+		pthread_key_t thread_key;
+		pthread_once_t initflag=PTHREAD_ONCE_INIT;
+		void destructor_main_key(VType data)
+		{
+		    printf("\tdestructor_main_key is called:data is %d\n",data);
+		}
+		void destructor_thread_key(VType data)
+		{
+		    printf("\tdestructor_thread_key is called:data is %d\n",data);
+		}
+		void initfn()
+		{
+		    pthread_key_create(&thread_key,destructor_thread_key);
+		    printf("\tthread_key init once\n");
+		}
+		VType thread_func (VType arg)
+		{
+		    int ok=pthread_once(&initflag,initfn);
+		    if(ok!=0) printf("Init thread_key failed ,because %s\n",strerror(ok));
+		    pthread_setspecific(main_key,arg);
+		    VType val=pthread_getspecific(main_key);
+		    printf("In thread 0x%x, thread local var is %d\n",pthread_self(),val);
+		}
+		int main(void)
+		{
+		    pthread_key_create(&main_key,destructor_main_key);
+		    pthread_t ids[5];
+		    for(int i=0;i<5;i++)
+		    {
+		        pthread_create(ids+i,NULL,thread_func,i+10);
+		    }
+		    for(int i=0;i<5;i++)
+		    {
+		        int ok=pthread_join(ids[i],NULL);
+		        if(ok!=0) printf("wait thread 0x%x failed ,because %s\n",ids[i],strerror(ok));
+		    }
+		    return 0;
+		}
+	
 	运行结果如下所示。可以看出：
 	- `initfn`函数在所有线程中只调用一次，且第一个执行到此处的线程调用
 	- 一个键只需要被`pthread_create`一次。具体是在主线程还是子线程中创建，则无所谓。但是它在子线程中析构多次。
@@ -1378,17 +1378,17 @@ int main(void)
 
 3. `pthread_testcancel`函数：手动添加取消点
 
-	```
-	#include<pthread.h>
-	void pthread_testcancel(void);
-	```
+	
+		#include<pthread.h>
+		void pthread_testcancel(void);
+		
 
 4. `pthread_setcancelstate`函数：设置线程的可取消状态
 
-	```
-	#include<pthread.h>
-	int pthread_setcancelstate(int state,int *oldstate);
-	```
+	
+		#include<pthread.h>
+		int pthread_setcancelstate(int state,int *oldstate);
+	
 	- 参数：
 		- `state`：即将被设置的线程的可取消状态
 		- `oldstate`：线程的原有的可取消状态存放在它指向的内存
@@ -1406,10 +1406,10 @@ int main(void)
 
 6. `pthread_setcanceltype`函数：修改取消类型
 
-	```
-	#include<pthread.h>
-	int pthread_setcanceltype(int type,int *oldtype);
-	```
+	
+		#include<pthread.h>
+		int pthread_setcanceltype(int type,int *oldtype);
+	
 	- 参数：
 		- `type`：即将被设置的线程的取消类型
 		- `oldtype`：线程的原有的取消类型存放在它指向的内存
@@ -1424,32 +1424,32 @@ int main(void)
 	- `PTHREAD_CANCEL_ASYNCHRONOUS`： 异步取消。此时线程可以在任意时间取消，不是非的遇到取消点才能被取消 
 7. 示例：
 
-	```
-#include <stdio.h>
-#include<pthread.h>
-#include<string.h>
-#include<errno.h>
-#include<unistd.h>
-typedef void * VType;
-VType thread_func (VType arg)
-{
-    int oldstate;
-    int oldtype;
-    pthread_setcancelstate(PTHREAD_CANCEL_DISABLE,&oldstate);
-    pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED,&oldtype);
-    printf("Old State is %s\n",oldstate==PTHREAD_CANCEL_DISABLE?
-               "PTHREAD_CANCEL_DISABLE":"PTHREAD_CANCEL_ENABLE");
-    printf("Old type is %s\n",oldtype==PTHREAD_CANCEL_DEFERRED?
-               "PTHREAD_CANCEL_DEFERRED":"PTHREAD_CANCEL_ASYNCHRONOUS");
-}
-int main(void)
-{
-    pthread_t id;
-    pthread_create(&id,NULL,thread_func,NULL);
-    pthread_join(id,NULL);
-    return 0;
-}
-	```
+	
+		#include <stdio.h>
+		#include<pthread.h>
+		#include<string.h>
+		#include<errno.h>
+		#include<unistd.h>
+		typedef void * VType;
+		VType thread_func (VType arg)
+		{
+		    int oldstate;
+		    int oldtype;
+		    pthread_setcancelstate(PTHREAD_CANCEL_DISABLE,&oldstate);
+		    pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED,&oldtype);
+		    printf("Old State is %s\n",oldstate==PTHREAD_CANCEL_DISABLE?
+		               "PTHREAD_CANCEL_DISABLE":"PTHREAD_CANCEL_ENABLE");
+		    printf("Old type is %s\n",oldtype==PTHREAD_CANCEL_DEFERRED?
+		               "PTHREAD_CANCEL_DEFERRED":"PTHREAD_CANCEL_ASYNCHRONOUS");
+		}
+		int main(void)
+		{
+		    pthread_t id;
+		    pthread_create(&id,NULL,thread_func,NULL);
+		    pthread_join(id,NULL);
+		    return 0;
+		}
+	
 	![pthread_cancel_state_type](../imgs/thread_control/pthread_cancel_state_type.JPG)
 
 ## 6. 线程和信号
@@ -1465,10 +1465,10 @@ int main(void)
 
 4. `pthread_sigmask`函数：修改线程的信号屏蔽字
 
-	```
-	#include<signal.h>
-	int pthread_sigmask(int how,const sigset_t *restrict set,sigset_t *restrict oset);
-	```
+	
+		#include<signal.h>
+		int pthread_sigmask(int how,const sigset_t *restrict set,sigset_t *restrict oset);
+	
 	- 参数：
 		- `how`:如果`set`是非空指针，则它结合`set`一起指示了如何修改线程的当前信号屏蔽字
 		- `set`:如果`set`是非空指针，则它结合`how`一起指示了如何修改线程的当前信号屏蔽字
@@ -1486,10 +1486,10 @@ int main(void)
 
 5. 线程可以通过`sigwait`来等待一个或者多个信号的出现：
 	
-	```
-	#include<signal.h>
-	int sigwait(const sigset_t *restrict set,int *restrict signop);
-	```
+	
+		#include<signal.h>
+		int sigwait(const sigset_t *restrict set,int *restrict signop);
+	
 	- 参数：
 		- `set`：指定了线程等待的信号集
 		- `signop`：返回时，它指向的整数将包含发送信号的数量
@@ -1508,10 +1508,10 @@ int main(void)
 
 6. 要把信号发送给线程，可以用`pthread_kill`
 
-	```
-	#include<signal.h>
-	int pthread_kill(pthread_t thread,int signo);
-	```
+	
+		#include<signal.h>
+		int pthread_kill(pthread_t thread,int signo);
+	
 	- 参数：
 		- `thread`：接收信号的线程
 		- `signo`：信号的编号
@@ -1525,64 +1525,64 @@ int main(void)
 
 8. 示例：
 
-	```
-#include <stdio.h>
-#include<pthread.h>
-#include<string.h>
-#include<signal.h>
-#include<errno.h>
-#include<unistd.h>
-typedef void * VType;
-VType thread_func (VType arg)
-{
-    sigset_t sigset;
-    sigemptyset(&sigset);
-    sigaddset(&sigset,arg);
-    pthread_sigmask(SIG_SETMASK,&sigset,NULL);
-    printf("Thread is 0x%x will block signal %s\n",pthread_self(),strsignal(arg));
-    pause();
-    printf("Thread 0x%x wake up,because signo %s",pthread_self(),strsignal(arg));
-}
-void sig_print(int signo,siginfo_t *info, void *context)
-{
-    printf("Begin signal Hanlder:\n");
-    psiginfo(info,"The siginfo is:\t");
-    printf("The current thread is 0x%x\n",pthread_self());
-    printf("End signal Hanlder:\n");
-}
-void add_sigaction(int signo)
-{
-    sigset_t set;
-    sigemptyset(&set);
-
-    struct sigaction action;
-    action.sa_sigaction=sig_print;
-    action.sa_flags=SA_SIGINFO;
-    action.sa_mask=set;
-    if(sigaction(signo,&action,NULL)==-1)
-    {
-        printf("set sigaction for signal %s failed!,because %s\n",
-			strsignal(signo),strerror(errno));
-    }else
-    {
-        printf("set sigaction for signal %s successed\n",strsignal(signo));
-    }
-}
-int main(void)
-{
-    pthread_t ids[2];
-    add_sigaction(SIGINT);
-    add_sigaction(SIGALRM);
-    pthread_create(ids,NULL,thread_func,SIGINT);
-    pthread_create(ids+1,NULL,thread_func,SIGALRM);
-    sleep(1);
-    pthread_kill(ids[0],SIGINT);
-    pthread_kill(ids[1],SIGALRM);
-    pthread_join(ids[0],NULL);
-    pthread_join(ids[1],NULL);
-    return 0;
-}
-	```
+	
+		#include <stdio.h>
+		#include<pthread.h>
+		#include<string.h>
+		#include<signal.h>
+		#include<errno.h>
+		#include<unistd.h>
+		typedef void * VType;
+		VType thread_func (VType arg)
+		{
+		    sigset_t sigset;
+		    sigemptyset(&sigset);
+		    sigaddset(&sigset,arg);
+		    pthread_sigmask(SIG_SETMASK,&sigset,NULL);
+		    printf("Thread is 0x%x will block signal %s\n",pthread_self(),strsignal(arg));
+		    pause();
+		    printf("Thread 0x%x wake up,because signo %s",pthread_self(),strsignal(arg));
+		}
+		void sig_print(int signo,siginfo_t *info, void *context)
+		{
+		    printf("Begin signal Hanlder:\n");
+		    psiginfo(info,"The siginfo is:\t");
+		    printf("The current thread is 0x%x\n",pthread_self());
+		    printf("End signal Hanlder:\n");
+		}
+		void add_sigaction(int signo)
+		{
+		    sigset_t set;
+		    sigemptyset(&set);
+		
+		    struct sigaction action;
+		    action.sa_sigaction=sig_print;
+		    action.sa_flags=SA_SIGINFO;
+		    action.sa_mask=set;
+		    if(sigaction(signo,&action,NULL)==-1)
+		    {
+		        printf("set sigaction for signal %s failed!,because %s\n",
+					strsignal(signo),strerror(errno));
+		    }else
+		    {
+		        printf("set sigaction for signal %s successed\n",strsignal(signo));
+		    }
+		}
+		int main(void)
+		{
+		    pthread_t ids[2];
+		    add_sigaction(SIGINT);
+		    add_sigaction(SIGALRM);
+		    pthread_create(ids,NULL,thread_func,SIGINT);
+		    pthread_create(ids+1,NULL,thread_func,SIGALRM);
+		    sleep(1);
+		    pthread_kill(ids[0],SIGINT);
+		    pthread_kill(ids[1],SIGALRM);
+		    pthread_join(ids[0],NULL);
+		    pthread_join(ids[1],NULL);
+		    return 0;
+		}
+	
 	结果如下。可以看到：
 	- 每个线程都有自己的信号屏蔽字
 
@@ -1590,44 +1590,44 @@ int main(void)
 
 	我们将`main`修改为：
 
-	```
-int main(void)
-{
-    pthread_t ids[2];
-    add_sigaction(SIGINT);
-    add_sigaction(SIGALRM);
-    pthread_create(ids,NULL,thread_func,SIGINT);
-    pthread_create(ids+1,NULL,thread_func,SIGALRM);
-    sleep(1);
-    pthread_kill(ids[0],SIGALRM);
-    pthread_kill(ids[1],SIGINT);
-    pthread_join(ids[0],NULL);
-    pthread_join(ids[1],NULL);
-    return 0;
-}
-	```
+	
+		int main(void)
+		{
+		    pthread_t ids[2];
+		    add_sigaction(SIGINT);
+		    add_sigaction(SIGALRM);
+		    pthread_create(ids,NULL,thread_func,SIGINT);
+		    pthread_create(ids+1,NULL,thread_func,SIGALRM);
+		    sleep(1);
+		    pthread_kill(ids[0],SIGALRM);
+		    pthread_kill(ids[1],SIGINT);
+		    pthread_join(ids[0],NULL);
+		    pthread_join(ids[1],NULL);
+		    return 0;
+		}
+	
 	结果如下。可以看到：
 	- 信号的处理是进程中所有线程共享
 	![thread_signal_act](../imgs/thread_control/thread_signal_act.JPG)
 	
 	我们将`main`修改为：
 
-	```
-int main(void)
-{
-    pthread_t ids[2];
-    add_sigaction(SIGINT);
-    add_sigaction(SIGALRM);
-    pthread_create(ids,NULL,thread_func,SIGINT);
-    pthread_create(ids+1,NULL,thread_func,SIGALRM);
-    sleep(1);
-    kill(0,SIGINT);
-    kill(0,SIGALRM);
-    pthread_join(ids[0],NULL);
-    pthread_join(ids[1],NULL);
-    return 0;
-}
-	```
+	
+	int main(void)
+	{
+	    pthread_t ids[2];
+	    add_sigaction(SIGINT);
+	    add_sigaction(SIGALRM);
+	    pthread_create(ids,NULL,thread_func,SIGINT);
+	    pthread_create(ids+1,NULL,thread_func,SIGALRM);
+	    sleep(1);
+	    kill(0,SIGINT);
+	    kill(0,SIGALRM);
+	    pthread_join(ids[0],NULL);
+	    pthread_join(ids[1],NULL);
+	    return 0;
+	}
+	
 
 	结果如下。可以看到：
 	- 发送到进程的信号，现在被主线程接收到了
@@ -1635,46 +1635,46 @@ int main(void)
 
 9. 示例：
 
-	```
-#include <stdio.h>
-#include<pthread.h>
-#include<string.h>
-#include<signal.h>
-#include<errno.h>
-typedef void * VType;
-VType thread_sig(VType arg)
-{
-    sigset_t mask_set;
-    sigset_t return_set;
-    int num;
-    int ok;
-    sigemptyset(&mask_set);
-    sigemptyset(&return_set);
-    sigaddset(&mask_set,arg);
-    sigaddset(&return_set,arg);
-    pthread_sigmask(SIG_SETMASK,&mask_set,NULL);
-    while(1)
-    {
-        ok=sigwait(&return_set,&num);
-        if(ok!=0) printf("Thread 0x%x,sigait error,because %s\n",pthread_self(),
-			strerror(ok));
-        else
-        {
-            printf("Thread 0x%x,signal %s catched,num=%d\n",pthread_self(),
-			strsignal(arg),num);
-        }
-    }
-}
-int main(void)
-{
-    pthread_t ids;
-    pthread_create(&ids,NULL,thread_sig,SIGINT);
-    sleep(1);
-    pthread_kill(ids,SIGINT);
-    pthread_join(ids,NULL);
-    return 0;
-}
-	```
+	
+		#include <stdio.h>
+		#include<pthread.h>
+		#include<string.h>
+		#include<signal.h>
+		#include<errno.h>
+		typedef void * VType;
+		VType thread_sig(VType arg)
+		{
+		    sigset_t mask_set;
+		    sigset_t return_set;
+		    int num;
+		    int ok;
+		    sigemptyset(&mask_set);
+		    sigemptyset(&return_set);
+		    sigaddset(&mask_set,arg);
+		    sigaddset(&return_set,arg);
+		    pthread_sigmask(SIG_SETMASK,&mask_set,NULL);
+		    while(1)
+		    {
+		        ok=sigwait(&return_set,&num);
+		        if(ok!=0) printf("Thread 0x%x,sigait error,because %s\n",pthread_self(),
+					strerror(ok));
+		        else
+		        {
+		            printf("Thread 0x%x,signal %s catched,num=%d\n",pthread_self(),
+					strsignal(arg),num);
+		        }
+		    }
+		}
+		int main(void)
+		{
+		    pthread_t ids;
+		    pthread_create(&ids,NULL,thread_sig,SIGINT);
+		    sleep(1);
+		    pthread_kill(ids,SIGINT);
+		    pthread_join(ids,NULL);
+		    return 0;
+		}
+	
 	可以看到：
 	- 这里并没有给信号处理函数。`SIGINT`默认行为是终止进程，但是这里并没有终止进程。说明`sigwait`确实	移除了挂起的信号
 	- 这里向线程发送了一个`SIGINT`信号，但是`sigwait`返回结果是`2`。具体原因不明。
@@ -1694,11 +1694,11 @@ int main(void)
 	- 要想清除锁的状态，可以通过调用`pthread_atfork`函数建立`fork`处理程序
 
 3. `pthread_atfork` 函数：建立`fork`处理程序
-
-	```
-	#include<pthread.h>
-	int pthread_atfork(void (*prepare)(void),void (*parent)(void),void (*child)(void));
-	```
+	
+		
+		#include<pthread.h>
+		int pthread_atfork(void (*prepare)(void),void (*parent)(void),void (*child)(void));
+	
 	- 参数：
 		- `prepare`：一个函数指针。该函数在父进程`fork`创建子进程之前调用
 		- `parent`:一个函数指针。该函数在`fork`返回之前在父进程的上下文中调用
@@ -1722,54 +1722,54 @@ int main(void)
 
 5. 示例
 
-	```
-#include <stdio.h>
-#include<pthread.h>
-void prepare_1()
-{
-    printf("1:Called when  enter in fork\n");
-}
-void parent_1()
-{
-    printf("1:Called in parent,before return from fork\n");
-}
-void child_1()
-{
-    printf("1:Called in child,before return from fork\n");
-}
-void prepare_2()
-{
-    printf("2:Called when  enter in fork\n");
-}
-void parent_2()
-{
-    printf("2:Called in parent,before return from fork\n");
-}
-void child_2()
-{
-    printf("2:Called in child,before return from fork\n");
-}
-void prepare_3()
-{
-    printf("3:Called when  enter in fork\n");
-}
-void parent_3()
-{
-    printf("3:Called in parent,before return from fork\n");
-}
-void child_3()
-{
-    printf("3:Called in child,before return from fork\n");
-}
-int main(void)
-{
-    pthread_atfork(prepare_1,parent_1,child_1);
-    pthread_atfork(prepare_2,parent_2,child_2);
-    pthread_atfork(prepare_3,parent_3,child_3);
-    fork();
-    return 0;
-}
-	```
+	
+		#include <stdio.h>
+		#include<pthread.h>
+		void prepare_1()
+		{
+		    printf("1:Called when  enter in fork\n");
+		}
+		void parent_1()
+		{
+		    printf("1:Called in parent,before return from fork\n");
+		}
+		void child_1()
+		{
+		    printf("1:Called in child,before return from fork\n");
+		}
+		void prepare_2()
+		{
+		    printf("2:Called when  enter in fork\n");
+		}
+		void parent_2()
+		{
+		    printf("2:Called in parent,before return from fork\n");
+		}
+		void child_2()
+		{
+		    printf("2:Called in child,before return from fork\n");
+		}
+		void prepare_3()
+		{
+		    printf("3:Called when  enter in fork\n");
+		}
+		void parent_3()
+		{
+		    printf("3:Called in parent,before return from fork\n");
+		}
+		void child_3()
+		{
+		    printf("3:Called in child,before return from fork\n");
+		}
+		int main(void)
+		{
+		    pthread_atfork(prepare_1,parent_1,child_1);
+		    pthread_atfork(prepare_2,parent_2,child_2);
+		    pthread_atfork(prepare_3,parent_3,child_3);
+		    fork();
+		    return 0;
+		}
+	
 	可以看到：
 	- `parent`和`child`处理程序是以它们注册时的顺序进行调用的
 	- `prepare`处理程序是以它们注册时的逆序进行调用的
