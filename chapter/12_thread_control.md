@@ -799,145 +799,145 @@
 11. 示例
 
 	
-	#include <stdio.h>
-	#include <string.h>
-	#include<errno.h>
-	#include<pthread.h>
-	typedef void * VType;
-	pthread_mutex_t mutex;
-	pthread_mutexattr_t attr;
-	void print_mutex_type(const pthread_mutexattr_t * attr)
-	{
-	    int type;
-	    int ok=pthread_mutexattr_gettype(attr,&type);
-	    if(ok!=0)
-	    {
-	        printf("\tpthread_mutexattr_gettype error,because %s\n",strerror(ok));
-	    }else
-	    {
-	        printf("\tmutex type is:");
-	        switch (type) {
-	        case PTHREAD_MUTEX_NORMAL:
-	            printf("NORMAL,");
-	            break;
-	        case PTHREAD_MUTEX_ERRORCHECK:
-	            printf("ERRORCHECK,");
-	            break;
-	        case PTHREAD_MUTEX_RECURSIVE:
-	            printf("RECURSIVE,");
-	            break;
-	         default:
-	            printf("Unknown\n");
-	
-	        }
-	        if(type==PTHREAD_MUTEX_DEFAULT)
-	        {
-	            printf("(DEFAULT)");
-	        }
-	        printf("\n");
-	    }
-	}
-	void print_mutex_shared(const pthread_mutexattr_t *attr)
-	{
-	    int shared;
-	    int ok=pthread_mutexattr_getpshared(attr,&shared);
-	    if(ok!=0)
-	    {
-	        printf("\tpthread_mutexattr_getpshared error,because %s\n",strerror(ok));
-	    }else
-	    {
-	        printf("\tmutex shared is:");
-	        switch (shared) {
-	        case PTHREAD_PROCESS_SHARED:
-	            printf("Process shared\n");
-	            break;
-	        case PTHREAD_PROCESS_PRIVATE:
-	            printf("Process private\n");
-	            break;
-	        default:
-	            printf("Unkown\n");
-	            break;
-	        }
-	    }
-	}
-	void print_mutex_robust(const pthread_mutexattr_t *attr)
-	{
-	    int robust;
-	    int ok=pthread_mutexattr_getrobust(attr,&robust);
-	    if(ok!=0)
-	    {
-	        printf("\tpthread_mutexattr_getrobust error,because %s\n",strerror(ok));
-	    }else
-	    {
-	        printf("\tmutex robust is:");
-	        switch (robust) {
-	        case PTHREAD_MUTEX_STALLED:
-	            printf("Stalled\n");
-	            break;
-	        case PTHREAD_MUTEX_ROBUST:
-	            printf("Robust\n");
-	            break;
-	        default:
-	            printf("Unkown\n");
-	            break;
-	        }
-	    }
-	}
-	void print_mutex(const pthread_mutexattr_t *attr)
-	{
-	    print_mutex_type(attr);
-	    print_mutex_shared(attr);
-	    print_mutex_robust(attr);
-	}
-	void thread_func_1(VType arg)
-	{
-	    int ok=pthread_mutex_lock(&mutex);
-	    if(ok!=0) printf("The first lock is failed,because %s\n",strerror((ok)));
-	    else printf("The first lock is ok\n");
-	
-	    ok=pthread_mutex_lock(&mutex);
-	    if(ok!=0) printf("The second lock is failed,because %s\n",strerror((ok)));
-	    else printf("The second lock is ok\n");
-	
-	    ok=pthread_mutex_unlock(&mutex);
-	    if(ok!=0) printf("The first unlock is failed,because %s\n",strerror((ok)));
-	    else printf("The first unlock is ok\n");
-	
-	    ok=pthread_mutex_unlock(&mutex);
-	    if(ok!=0) printf("The second unlock is failed,because %s\n",strerror((ok)));
-	    else printf("The second unlock is ok\n");
-	}
-	void thread_func_2(VType arg)
-	{
-	    int ok=pthread_mutex_lock(&mutex);
-	    if(ok!=0) printf("The first lock is failed,because %s\n",strerror((ok)));
-	    else printf("The first lock is ok\n");
-	
-	    ok=pthread_mutex_unlock(&mutex);
-	    if(ok!=0) printf("The first unlock is failed,because %s\n",strerror((ok)));
-	    else printf("The first unlock is ok\n");
-	
-	    ok=pthread_mutex_unlock(&mutex);
-	    if(ok!=0) printf("The second unlock is failed,because %s\n",strerror((ok)));
-	    else printf("The second unlock is ok\n");
-	}
-	int main(void)
-	{
-	    pthread_mutexattr_init( &attr);
-	    pthread_mutexattr_settype( &attr,PTHREAD_MUTEX_NORMAL); 
-		//PTHREAD_MUTEX_ERRORCHECK,PTHREAD_MUTEX_RECURSIVE
-	    pthread_mutex_init(&mutex,&attr);
-	    print_mutex(&attr);
-	
-	    pthread_t thread;
-	    int ok=pthread_create(&thread,NULL,thread_func_1,(void*)0);
-	    if(ok!=0) printf("create thread error,because %s\n",strerror(ok));
-	    pthread_join(thread,NULL);
-	
-	    pthread_mutexattr_destroy(&attr);
-	    pthread_mutex_destroy(&mutex);
-	    return 0;
-	}
+		#include <stdio.h>
+		#include <string.h>
+		#include<errno.h>
+		#include<pthread.h>
+		typedef void * VType;
+		pthread_mutex_t mutex;
+		pthread_mutexattr_t attr;
+		void print_mutex_type(const pthread_mutexattr_t * attr)
+		{
+		    int type;
+		    int ok=pthread_mutexattr_gettype(attr,&type);
+		    if(ok!=0)
+		    {
+		        printf("\tpthread_mutexattr_gettype error,because %s\n",strerror(ok));
+		    }else
+		    {
+		        printf("\tmutex type is:");
+		        switch (type) {
+		        case PTHREAD_MUTEX_NORMAL:
+		            printf("NORMAL,");
+		            break;
+		        case PTHREAD_MUTEX_ERRORCHECK:
+		            printf("ERRORCHECK,");
+		            break;
+		        case PTHREAD_MUTEX_RECURSIVE:
+		            printf("RECURSIVE,");
+		            break;
+		         default:
+		            printf("Unknown\n");
+		
+		        }
+		        if(type==PTHREAD_MUTEX_DEFAULT)
+		        {
+		            printf("(DEFAULT)");
+		        }
+		        printf("\n");
+		    }
+		}
+		void print_mutex_shared(const pthread_mutexattr_t *attr)
+		{
+		    int shared;
+		    int ok=pthread_mutexattr_getpshared(attr,&shared);
+		    if(ok!=0)
+		    {
+		        printf("\tpthread_mutexattr_getpshared error,because %s\n",strerror(ok));
+		    }else
+		    {
+		        printf("\tmutex shared is:");
+		        switch (shared) {
+		        case PTHREAD_PROCESS_SHARED:
+		            printf("Process shared\n");
+		            break;
+		        case PTHREAD_PROCESS_PRIVATE:
+		            printf("Process private\n");
+		            break;
+		        default:
+		            printf("Unkown\n");
+		            break;
+		        }
+		    }
+		}
+		void print_mutex_robust(const pthread_mutexattr_t *attr)
+		{
+		    int robust;
+		    int ok=pthread_mutexattr_getrobust(attr,&robust);
+		    if(ok!=0)
+		    {
+		        printf("\tpthread_mutexattr_getrobust error,because %s\n",strerror(ok));
+		    }else
+		    {
+		        printf("\tmutex robust is:");
+		        switch (robust) {
+		        case PTHREAD_MUTEX_STALLED:
+		            printf("Stalled\n");
+		            break;
+		        case PTHREAD_MUTEX_ROBUST:
+		            printf("Robust\n");
+		            break;
+		        default:
+		            printf("Unkown\n");
+		            break;
+		        }
+		    }
+		}
+		void print_mutex(const pthread_mutexattr_t *attr)
+		{
+		    print_mutex_type(attr);
+		    print_mutex_shared(attr);
+		    print_mutex_robust(attr);
+		}
+		void thread_func_1(VType arg)
+		{
+		    int ok=pthread_mutex_lock(&mutex);
+		    if(ok!=0) printf("The first lock is failed,because %s\n",strerror((ok)));
+		    else printf("The first lock is ok\n");
+		
+		    ok=pthread_mutex_lock(&mutex);
+		    if(ok!=0) printf("The second lock is failed,because %s\n",strerror((ok)));
+		    else printf("The second lock is ok\n");
+		
+		    ok=pthread_mutex_unlock(&mutex);
+		    if(ok!=0) printf("The first unlock is failed,because %s\n",strerror((ok)));
+		    else printf("The first unlock is ok\n");
+		
+		    ok=pthread_mutex_unlock(&mutex);
+		    if(ok!=0) printf("The second unlock is failed,because %s\n",strerror((ok)));
+		    else printf("The second unlock is ok\n");
+		}
+		void thread_func_2(VType arg)
+		{
+		    int ok=pthread_mutex_lock(&mutex);
+		    if(ok!=0) printf("The first lock is failed,because %s\n",strerror((ok)));
+		    else printf("The first lock is ok\n");
+		
+		    ok=pthread_mutex_unlock(&mutex);
+		    if(ok!=0) printf("The first unlock is failed,because %s\n",strerror((ok)));
+		    else printf("The first unlock is ok\n");
+		
+		    ok=pthread_mutex_unlock(&mutex);
+		    if(ok!=0) printf("The second unlock is failed,because %s\n",strerror((ok)));
+		    else printf("The second unlock is ok\n");
+		}
+		int main(void)
+		{
+		    pthread_mutexattr_init( &attr);
+		    pthread_mutexattr_settype( &attr,PTHREAD_MUTEX_NORMAL); 
+			//PTHREAD_MUTEX_ERRORCHECK,PTHREAD_MUTEX_RECURSIVE
+		    pthread_mutex_init(&mutex,&attr);
+		    print_mutex(&attr);
+		
+		    pthread_t thread;
+		    int ok=pthread_create(&thread,NULL,thread_func_1,(void*)0);
+		    if(ok!=0) printf("create thread error,because %s\n",strerror(ok));
+		    pthread_join(thread,NULL);
+		
+		    pthread_mutexattr_destroy(&attr);
+		    pthread_mutex_destroy(&mutex);
+		    return 0;
+		}
 
 	
 
@@ -1137,30 +1137,30 @@
 5. 示例：
 
 	
-	#include <stdio.h>
-	#include<pthread.h>
-	#include<string.h>
-	#include<errno.h>
-	#include<unistd.h>
-	typedef void * VType;
-	VType thread_func (VType arg)
-	{
-	
-	    fprintf(stdout,"In thread 0x%x ,line 1\n",pthread_self());
-	    sleep(1);
-	    fprintf(stdout,"In thread 0x%x ,line 2\n",pthread_self());
-	    sleep(1);
-	    fprintf(stdout,"In thread 0x%x ,line 3\n",pthread_self());
-	}
-	int main(void)
-	{
-	    pthread_t ids[2];
-	    pthread_create(ids,NULL,thread_func,0);
-	    pthread_create(ids+1,NULL,thread_func,0);
-	    pthread_join(ids[0],NULL);
-	    pthread_join(ids[1],NULL);
-	    return 0;
-	}
+		#include <stdio.h>
+		#include<pthread.h>
+		#include<string.h>
+		#include<errno.h>
+		#include<unistd.h>
+		typedef void * VType;
+		VType thread_func (VType arg)
+		{
+		
+		    fprintf(stdout,"In thread 0x%x ,line 1\n",pthread_self());
+		    sleep(1);
+		    fprintf(stdout,"In thread 0x%x ,line 2\n",pthread_self());
+		    sleep(1);
+		    fprintf(stdout,"In thread 0x%x ,line 3\n",pthread_self());
+		}
+		int main(void)
+		{
+		    pthread_t ids[2];
+		    pthread_create(ids,NULL,thread_func,0);
+		    pthread_create(ids+1,NULL,thread_func,0);
+		    pthread_join(ids[0],NULL);
+		    pthread_join(ids[1],NULL);
+		    return 0;
+		}
 	
 	运行结果如下。可以看到对`stdio`这个`FILE`对象的访问是交叉进行的。
 	![thread_FILE](../imgs/thread_control/thread_FILE.JPG)
@@ -1168,16 +1168,16 @@
 	我们修改`thread_func`函数为：
 
 	
-	VType thread_func (VType arg)
-	{
-	    flockfile(stdout);
-	    fprintf(stdout,"In thread 0x%x ,line 1\n",pthread_self());
-	    sleep(1);
-	    fprintf(stdout,"In thread 0x%x ,line 2\n",pthread_self());
-	    sleep(1);
-	    fprintf(stdout,"In thread 0x%x ,line 3\n",pthread_self());
-	    funlockfile(stdout);
-	}
+		VType thread_func (VType arg)
+		{
+		    flockfile(stdout);
+		    fprintf(stdout,"In thread 0x%x ,line 1\n",pthread_self());
+		    sleep(1);
+		    fprintf(stdout,"In thread 0x%x ,line 2\n",pthread_self());
+		    sleep(1);
+		    fprintf(stdout,"In thread 0x%x ,line 3\n",pthread_self());
+		    funlockfile(stdout);
+		}
 
 
 	运行结果如下。可以看到对`stdio`这个`FILE`对象的访问是获得锁之后才能访问的。
@@ -1613,20 +1613,20 @@
 	我们将`main`修改为：
 
 	
-	int main(void)
-	{
-	    pthread_t ids[2];
-	    add_sigaction(SIGINT);
-	    add_sigaction(SIGALRM);
-	    pthread_create(ids,NULL,thread_func,SIGINT);
-	    pthread_create(ids+1,NULL,thread_func,SIGALRM);
-	    sleep(1);
-	    kill(0,SIGINT);
-	    kill(0,SIGALRM);
-	    pthread_join(ids[0],NULL);
-	    pthread_join(ids[1],NULL);
-	    return 0;
-	}
+		int main(void)
+		{
+		    pthread_t ids[2];
+		    add_sigaction(SIGINT);
+		    add_sigaction(SIGALRM);
+		    pthread_create(ids,NULL,thread_func,SIGINT);
+		    pthread_create(ids+1,NULL,thread_func,SIGALRM);
+		    sleep(1);
+		    kill(0,SIGINT);
+		    kill(0,SIGALRM);
+		    pthread_join(ids[0],NULL);
+		    pthread_join(ids[1],NULL);
+		    return 0;
+		}
 	
 
 	结果如下。可以看到：

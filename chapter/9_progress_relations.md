@@ -51,11 +51,11 @@
 
 2. `getpgrp/getpgid`函数：获取进程所属的进程组：
 
-	```
-	#include<unistd.h>
-	pid_t getpgrp(void);
-	pid_t getpgid(pid_t pid);
-	```
+	
+		#include<unistd.h>
+		pid_t getpgrp(void);
+		pid_t getpgid(pid_t pid);
+	
 	- 对于`getpgrp`函数：其返回值是调用进程的进程组`ID`（没有失败值）
 	- 对于`getpgid`函数：
 		- 参数：`pid`为待查看进程的进程ID。如果`pid=0`，则返回调用进程的进程组`ID`
@@ -64,28 +64,28 @@
 
 3. 示例：在`main`函数中调用`test_getpgrp_getpgid`函数:
 
-	```
-void test_getpgrp_getpgid()
-{
-    M_TRACE("---------  Begin test_getpgrp_getpgid()  ---------\n");
-    create_child();
-    // 只有父进程能到达此处
-    check_waitpid();
-    print_pid();
-    print_parent_pid();
-    My_getpgrp(); // 父进程自己
-    My_getpgid(getppid());// 父进程的父进程
-    M_TRACE("---------  End test_getpgrp_getpgid()  ---------\n\n");
-}
-	```
+	
+		void test_getpgrp_getpgid()
+		{
+		    M_TRACE("---------  Begin test_getpgrp_getpgid()  ---------\n");
+		    create_child();
+		    // 只有父进程能到达此处
+		    check_waitpid();
+		    print_pid();
+		    print_parent_pid();
+		    My_getpgrp(); // 父进程自己
+		    My_getpgid(getppid());// 父进程的父进程
+		    M_TRACE("---------  End test_getpgrp_getpgid()  ---------\n\n");
+		}
+	
 	![get_process_group_id](../imgs/progress_relations/get_process_group_id.JPG)
 
 4. `setpgid`函数：加入一个现有的进程组或者创建一个新进程组
 
-	```
-	#include<unistd.h>
-	int setpgid(pid_t pid,pid_t pgid);
-	```
+	
+		#include<unistd.h>
+		int setpgid(pid_t pid,pid_t pgid);
+	
 	- 参数：
 		- `pid`：待处理的进程的进程`ID`
 		- `pgid`：进程组的组`ID`
@@ -104,19 +104,19 @@ void test_getpgrp_getpgid()
 
 5. 示例：在`main`函数中调用`test_setpgid`函数：
 
-	```
-void test_setpgid()
-{
-    M_TRACE("---------  Begin test_setpgid()  ---------\n");
-    create_child();
-    // 只有父进程能到达此处
-    check_waitpid();
-    print_pid();
-    print_parent_pid();
-    My_getpgrp(); // 父进程自己
-    M_TRACE("---------  End test_setpgid()  ---------\n\n");
-}
-	```
+	
+		void test_setpgid()
+		{
+		    M_TRACE("---------  Begin test_setpgid()  ---------\n");
+		    create_child();
+		    // 只有父进程能到达此处
+		    check_waitpid();
+		    print_pid();
+		    print_parent_pid();
+		    My_getpgrp(); // 父进程自己
+		    M_TRACE("---------  End test_setpgid()  ---------\n\n");
+		}
+	
   	![setpgid](../imgs/progress_relations/setpgid.JPG)
 
 ## 会话
@@ -125,10 +125,10 @@ void test_setpgid()
 
 2. `setsid`函数：创建一个新会话
 
-	```
-	#include<unistd.h>
-	pid_t setsid(void);
-	```
+
+		#include<unistd.h>
+		pid_t setsid(void);
+	
 	- 返回值：
 		- 成功：返回进程组ID
 		- 失败：返回 -1
@@ -144,10 +144,10 @@ void test_setpgid()
 
 3. `getsid`函数：返回进程所在的会话`ID`（会话`ID`等于会话首进程的进程组ID，会话首进程总是进程组的组长进程，因此它也等于会话首进程的进程ID）
 
-	```
-	#include<unistd.h>
-	pid_t getsid(pid_t pid);
-	```
+	
+		#include<unistd.h>
+		pid_t getsid(pid_t pid);
+	
 	- 参数：
 		- `pid`:待查看进程的进程`ID`
 	- 返回值：
@@ -158,22 +158,22 @@ void test_setpgid()
 
 4. 示例：在`main`函数中调用`test_getsid_setsid`函数：
 
-	```
-void test_getsid_setsid()
-{
-    M_TRACE("---------  Begin test_getsid_setsid()  ---------\n");
-    create_child();
-    // 只有父进程能到达此处
-    check_waitpid();
-    print_pid();
-    print_parent_pid();
-    My_getpgid(0);
-    My_getsid(0);
-    My_setsid();
-    My_getsid(0);
-    M_TRACE("---------  End test_getsid_setsid()  ---------\n\n");
-}
-	```
+			
+		void test_getsid_setsid()
+		{
+		    M_TRACE("---------  Begin test_getsid_setsid()  ---------\n");
+		    create_child();
+		    // 只有父进程能到达此处
+		    check_waitpid();
+		    print_pid();
+		    print_parent_pid();
+		    My_getpgid(0);
+		    My_getsid(0);
+		    My_setsid();
+		    My_getsid(0);
+		    M_TRACE("---------  End test_getsid_setsid()  ---------\n\n");
+		}
+	
   	![session_id](../imgs/progress_relations/session_id.JPG)
 	可以看到：
 	- 子进程的进程ID为 3389，父进程的进程ID为 3388
@@ -195,11 +195,11 @@ void test_getsid_setsid()
 
 2.  `tcgetpgrp/tcsetpgrp`函数：获取/设置当前进程所在会话的前台进程组ID
 
-	```
-	#include<unistd.h>
-	pid_t tcgetpgrp(int fd);
-	int tcsetpgrp(int fd,pid_t pgrpid);
-	```
+	
+		#include<unistd.h>
+		pid_t tcgetpgrp(int fd);
+		int tcsetpgrp(int fd,pid_t pgrpid);
+	
 	- 参数：
 		- `fd`：进程在`fd`这个描述符上打开的终端
 		- `pgrpid`：待设置的前台进程组ID
@@ -216,10 +216,10 @@ void test_getsid_setsid()
 
 3. `tcgetsid`函数：获取会话首进程的进程组ID（也就是会话ID）
 
-	```
-	#include<termios.hh>
-	pid_t tcgetsid(int fd);
-	```
+	
+		#include<termios.hh>
+		pid_t tcgetsid(int fd);
+	
 	- 参数：
 		- `fd`：进程在`fd`这个描述符上打开的终端
 	- 返回值：
@@ -231,19 +231,19 @@ void test_getsid_setsid()
 4. 示例：在`main`函数中调用`test_tcgetpgrp_tcsetpgrp`函数：
 
 
-	```
-void test_tcgetpgrp_tcsetpgrp()
-{
-    M_TRACE("---------  Begin test_tcgetpgrp_tcsetpgrp()  ---------\n");
-    create_child();
-    // 只有父进程能到达此处
-    check_waitpid();
-    print_pid();
-    print_parent_pid();
-    My_getpgrp(); // 父进程自己
-    M_TRACE("---------  End test_tcgetpgrp_tcsetpgrp()  ---------\n\n");
-}
-	```
+	
+		void test_tcgetpgrp_tcsetpgrp()
+		{
+		    M_TRACE("---------  Begin test_tcgetpgrp_tcsetpgrp()  ---------\n");
+		    create_child();
+		    // 只有父进程能到达此处
+		    check_waitpid();
+		    print_pid();
+		    print_parent_pid();
+		    My_getpgrp(); // 父进程自己
+		    M_TRACE("---------  End test_tcgetpgrp_tcsetpgrp()  ---------\n\n");
+		}
+	
   	![control_terminal](../imgs/progress_relations/control_terminal.JPG) 
 	可以看到：
 	- 子进程ID为 3860，父进程ID为 3859， 父进程的父进程ID为 3858

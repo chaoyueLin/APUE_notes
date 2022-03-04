@@ -17,41 +17,41 @@
 
 2. 获取进程的标识符：
 
-	```
-	#include<unistd.h>
-	pid_t getpid(void);  // 返回值：调用进程的进程ID
-	pid_t getppid(void); // 返回值：调用进程的父进程ID
-	uid_t getuid(void);  // 返回值：返回进程的实际用户ID
-	uid_t geteuid(void); // 返回值：返回进程的有效用户ID
-	gid_t getgid(void);  // 返回值：返回进程的实际组ID
-	gid_t getegid(void); // 返回值：返回进程的有效组ID
-	```
+	
+		#include<unistd.h>
+		pid_t getpid(void);  // 返回值：调用进程的进程ID
+		pid_t getppid(void); // 返回值：调用进程的父进程ID
+		uid_t getuid(void);  // 返回值：返回进程的实际用户ID
+		uid_t geteuid(void); // 返回值：返回进程的有效用户ID
+		gid_t getgid(void);  // 返回值：返回进程的实际组ID
+		gid_t getegid(void); // 返回值：返回进程的有效组ID
+	
 	- 这些函数都没有出错返回
 
 3. 示例：在`main`函数中调用`test_progress_id`函数：
 
-	```
-void test_progress_id()
-{
-    M_TRACE("---------  Begin test_progress_id()  ---------\n");
-    printf("progress ids:\n");
-    printf("\t progress id:%d\n",getpid());
-    printf("\t parent progress id:%d\n",getppid());
-    printf("\t user id:%d\n",getuid());
-    printf("\t efficient user id:%d\n",geteuid());
-    printf("\t group id:%d\n",getgid());
-    printf("\t efficient group id:%d\n",getegid());
-    M_TRACE("---------  End test_progress_id()  ---------\n\n");
-}
-	```
+	
+		void test_progress_id()
+		{
+		    M_TRACE("---------  Begin test_progress_id()  ---------\n");
+		    printf("progress ids:\n");
+		    printf("\t progress id:%d\n",getpid());
+		    printf("\t parent progress id:%d\n",getppid());
+		    printf("\t user id:%d\n",getuid());
+		    printf("\t efficient user id:%d\n",geteuid());
+		    printf("\t group id:%d\n",getgid());
+		    printf("\t efficient group id:%d\n",getegid());
+		    M_TRACE("---------  End test_progress_id()  ---------\n\n");
+		}
+	
 	![ids](../imgs/progress_control/progress_id.JPG)
 
 4. `fork`函数：创建一个新进程
 
-	```
-	#include<unistd.h>
-	pid_t fork(void);
-	```
+	
+		#include<unistd.h>
+		pid_t fork(void);
+		
 	- 返回值：
 		- 成功：
 			- 子进程返回 0
@@ -92,42 +92,42 @@ void test_progress_id()
 
 5. 示例： 在`main`函数中调用`test_fork` 函数：
 
-	```
-void test_fork()
-{
-    M_TRACE("---------  Begin test_fork()  ---------\n");
-    assert(prepare_file("test","abc",3,S_IRWXU)==0);
-    int fd=My_open("test",O_RDWR);
-    if(-1==fd)
-    {
-        un_prepare_file("test");
-        M_TRACE("---------  End test_fork()  ---------\n\n");
-        return;
-    }
-    //****** 打开文件成功 *************//
-    pid_t id=fork();
-    if(0==id)
-    { // child 1
-        prgress_func(fd,"**********In Child 1***********");
-        _exit(0);
-    }
-    sleep(2); // 确保父进程在子进程之后执行
-    id=fork();
-    printf("This is in the second fork\n");
-    if(0==id)
-    {// child 2
-        prgress_func(fd,"**********In Child 2***********");
-        _exit(0);
-    }
-    sleep(2);  // 确保父进程在子进程之后执行
-    prgress_func(fd,"**********In Parent***********");
+	
+		void test_fork()
+		{
+		    M_TRACE("---------  Begin test_fork()  ---------\n");
+		    assert(prepare_file("test","abc",3,S_IRWXU)==0);
+		    int fd=My_open("test",O_RDWR);
+		    if(-1==fd)
+		    {
+		        un_prepare_file("test");
+		        M_TRACE("---------  End test_fork()  ---------\n\n");
+		        return;
+		    }
+		    //****** 打开文件成功 *************//
+		    pid_t id=fork();
+		    if(0==id)
+		    { // child 1
+		        prgress_func(fd,"**********In Child 1***********");
+		        _exit(0);
+		    }
+		    sleep(2); // 确保父进程在子进程之后执行
+		    id=fork();
+		    printf("This is in the second fork\n");
+		    if(0==id)
+		    {// child 2
+		        prgress_func(fd,"**********In Child 2***********");
+		        _exit(0);
+		    }
+		    sleep(2);  // 确保父进程在子进程之后执行
+		    prgress_func(fd,"**********In Parent***********");
+		
+		    close(fd);
+		    un_prepare_file("test");
+		    M_TRACE("---------  End test_fork()  ---------\n\n");
+		}
 
-    close(fd);
-    un_prepare_file("test");
-    M_TRACE("---------  End test_fork()  ---------\n\n");
-}
-
-	```
+	
 
   	![fork](../imgs/progress_control/fork.JPG)
 	
@@ -148,47 +148,47 @@ void test_fork()
 
 8. 示例：在`main`函数中调用`test_vfork`函数：
 
-	```
-void test_vfork()
-{
-    M_TRACE("---------  Begin test_vfork()  ---------\n");
-    assert(prepare_file("test","abc",3,S_IRWXU)==0);
-    int fd=My_open("test",O_RDWR);
-    if(-1==fd)
-    {
-        un_prepare_file("test");
-        M_TRACE("---------  End test_fork()  ---------\n\n");
-        return;
-    }
-    //****** 打开文件成功 *************//
-
-    int i=0; // 用于测试父子进程是否共享同一个子空间
-    int id=vfork();
-    if(0==id)
-    {//child
-//        fcntl_lock(fd);  // 加锁
-        printf("*********** In Child ***********\n");
-        print_pid_ppid();
-        printf("i=%d\n",i);
-        i=999;
-        printf("*********** In Child ***********\n");
-//        fcntl_unlock(fd); // 解锁
-        _exit(0);
-    }else
-    {//parent
-//        fcntl_lock(fd);  // 加锁
-        printf("*********** In Parent ***********\n");
-        print_pid_ppid();
-        printf("i=%d\n",i);
-        printf("*********** In Parent ***********\n");
-//        fcntl_unlock(fd); // 解锁
-    }
-
-    close(fd);
-    un_prepare_file("test");
-    M_TRACE("---------  End test_vfork()  ---------\n\n");
-}
-	```
+	
+		void test_vfork()
+		{
+		    M_TRACE("---------  Begin test_vfork()  ---------\n");
+		    assert(prepare_file("test","abc",3,S_IRWXU)==0);
+		    int fd=My_open("test",O_RDWR);
+		    if(-1==fd)
+		    {
+		        un_prepare_file("test");
+		        M_TRACE("---------  End test_fork()  ---------\n\n");
+		        return;
+		    }
+		    //****** 打开文件成功 *************//
+		
+		    int i=0; // 用于测试父子进程是否共享同一个子空间
+		    int id=vfork();
+		    if(0==id)
+		    {//child
+		//        fcntl_lock(fd);  // 加锁
+		        printf("*********** In Child ***********\n");
+		        print_pid_ppid();
+		        printf("i=%d\n",i);
+		        i=999;
+		        printf("*********** In Child ***********\n");
+		//        fcntl_unlock(fd); // 解锁
+		        _exit(0);
+		    }else
+		    {//parent
+		//        fcntl_lock(fd);  // 加锁
+		        printf("*********** In Parent ***********\n");
+		        print_pid_ppid();
+		        printf("i=%d\n",i);
+		        printf("*********** In Parent ***********\n");
+		//        fcntl_unlock(fd); // 解锁
+		    }
+		
+		    close(fd);
+		    un_prepare_file("test");
+		    M_TRACE("---------  End test_vfork()  ---------\n\n");
+		}
+	
   	![vfork](../imgs/progress_control/vfork.JPG)
 	
 	可以看出：
@@ -245,11 +245,11 @@ void test_vfork()
 
 5. `wait/waitpid`函数：
 	
-	```
-	#include<sys/wait.h>
-	pid_t wait(int *staloc);
-	pid_t waitpid(pid_t pid,int *staloc,int options);
-	```
+	
+		#include<sys/wait.h>
+		pid_t wait(int *staloc);
+		pid_t waitpid(pid_t pid,int *staloc,int options);
+	
 	- 参数：
 		- `staloc`：存放子进程终止状态的缓冲区的地址。如果你不关心子进程的终止状态，则可以设它为空指针`NULL`
 		
@@ -298,41 +298,41 @@ void test_vfork()
 
 6. 示例：在`main`函数中调用`test_wait_waitpid`函数：
 
-	```
-void test_wait_waitpid()
-{
-    M_TRACE("---------  Begin test_wait_waitpid()  ---------\n");
-    assert(prepare_file("test","abc",3,S_IRWXU)==0);
-    int fd=My_open("test",O_RDWR);
-    if(-1==fd)
-    {
-        un_prepare_file("test");
-        M_TRACE("---------  End test_fork()  ---------\n\n");
-        return;
-    }
-    //****** 打开文件成功 *************//
-
-    prgress_func(fd,"**********Parent***********");
-    if(0!=child_exit(fd,100))
-    {// parent
-        sleep(1); //确保父进程稍后执行
-        if(0!=child_abort(fd))
-        {//parent
-            sleep(1); //确保父进程稍后执行
-            if(0!=child_signal(fd))
-            {
-                 sleep(1); //确保父进程稍后执行
-                 check_wait();   //only wait at parent （二选一）
-                 // check_waitpid(); // only wait at parent  （二选一）
-
-                 close(fd);
-                 un_prepare_file("test");
-                 M_TRACE("---------  End test_wait_waitpid()  ---------\n\n");
-            }
-        }
-    }
-}
-	```
+	
+		void test_wait_waitpid()
+		{
+		    M_TRACE("---------  Begin test_wait_waitpid()  ---------\n");
+		    assert(prepare_file("test","abc",3,S_IRWXU)==0);
+		    int fd=My_open("test",O_RDWR);
+		    if(-1==fd)
+		    {
+		        un_prepare_file("test");
+		        M_TRACE("---------  End test_fork()  ---------\n\n");
+		        return;
+		    }
+		    //****** 打开文件成功 *************//
+		
+		    prgress_func(fd,"**********Parent***********");
+		    if(0!=child_exit(fd,100))
+		    {// parent
+		        sleep(1); //确保父进程稍后执行
+		        if(0!=child_abort(fd))
+		        {//parent
+		            sleep(1); //确保父进程稍后执行
+		            if(0!=child_signal(fd))
+		            {
+		                 sleep(1); //确保父进程稍后执行
+		                 check_wait();   //only wait at parent （二选一）
+		                 // check_waitpid(); // only wait at parent  （二选一）
+		
+		                 close(fd);
+		                 un_prepare_file("test");
+		                 M_TRACE("---------  End test_wait_waitpid()  ---------\n\n");
+		            }
+		        }
+		    }
+		}
+	
   	![wait](../imgs/progress_control/wait.JPG)
 	
 	- 子进程的结束顺序跟它们派生的顺序没有什么关系。`wait`只会处理最先结束的子进程
@@ -348,10 +348,10 @@ void test_wait_waitpid()
 
 7. `waitid`函数：它类似`waitpid`，但是提供了更灵活的参数
 
-	```
-	#include<sys/wait.h>
-	int waitid(idtype_t idtype,id_t id,siginfo_t *infop,int options);
-	```
+	
+		#include<sys/wait.h>
+		int waitid(idtype_t idtype,id_t id,siginfo_t *infop,int options);
+	
 	- 参数：
 		- `idtype`：指定了`id`类型，可以为下列常量
 			- `P_PID`：等待特定进程。此时`id`表示要等待的子进程的进程`ID`
@@ -372,14 +372,14 @@ void test_wait_waitpid()
 
 8. `wait3/wait4`函数：可以返回终止子进程及其子子进程的资源使用情况
 
-	```
-	#include<sys/types.h>
-	#include<sys/wait.h>
-	#include<sys/time.h>
-	#include<sys/resource.h>
-	pid_t wait3(int *staloc,int options,struct rusage *rusage);
-	pid_t wait4(pid_t pid,int *staloc,int options,struct rusage *rusage);
-	```
+	
+		#include<sys/types.h>
+		#include<sys/wait.h>
+		#include<sys/time.h>
+		#include<sys/resource.h>
+		pid_t wait3(int *staloc,int options,struct rusage *rusage);
+		pid_t wait4(pid_t pid,int *staloc,int options,struct rusage *rusage);
+	
 	- 参数：
 		- `staloc`：存放子进程终止状态的缓冲区的地址。如果你不关心子进程的终止状态，则可以设它为空指针`NULL`
 		- `rusage`：一个缓冲区的地址，该缓冲区存放由`wait3,wait4`返回的终止子进程的资源统计信息，包括：用户CPU时间总量、系统CPU时间总量、缺页次数、接收到的信号的次数等
@@ -400,17 +400,17 @@ void test_wait_waitpid()
 
 2. 有7种不同的`exec`函数可以供使用，它们被统称称作`exec`函数：
 	
-	```
-	#include<unistd.h>
-	int execl(const char *pathname,const char *arg0,.../*(char *) 0 */);
-	int execv(const char *pathname,char *const argv[]);
-	int execle(const char *pathname,const char *arg0,.../*(char *) 0
-			,char *const envp[] */);
-	int execve(const char *pathname,char *const argv[],char *const envp[]);
-	int execlp(const char *filename,const char*arg0,.../*(char *) 0*/);
-	int execvp(const char *filename, char *const argv[]);
-	int fexecve(int fd,char *const argv[],char *const evnp[]);
-	```
+	
+		#include<unistd.h>
+		int execl(const char *pathname,const char *arg0,.../*(char *) 0 */);
+		int execv(const char *pathname,char *const argv[]);
+		int execle(const char *pathname,const char *arg0,.../*(char *) 0
+				,char *const envp[] */);
+		int execve(const char *pathname,char *const argv[],char *const envp[]);
+		int execlp(const char *filename,const char*arg0,.../*(char *) 0*/);
+		int execvp(const char *filename, char *const argv[]);
+		int fexecve(int fd,char *const argv[],char *const evnp[]);
+	
 	返回值：
 	- 若成功：不返回
 	- 若失败：返回 -1
@@ -439,104 +439,104 @@ void test_wait_waitpid()
 
 3. 示例： 在`main`函数中调用`test_exec` 函数
 
-	```
-void test_exec()
-{
-    M_TRACE("---------  Begin test_exec()  ---------\n");
-    char buffer[1024];
-    getcwd(buffer,1024);
-    char *pathname=abs_path(buffer,"print_arg");
-
-    _test_execl(pathname); // 绝对路径名
-    _test_execv(pathname); // 绝对路径名
-    _test_execle(pathname); // 绝对路径名
-    _test_execve(pathname); // 绝对路 径名
-    _test_execlp("print_arg"); //相对文件名
-    _test_execvp("print_arg"); //相对文件名
-    M_TRACE("---------  End test_exec()  ---------\n\n");
-}
-	```
+	
+		void test_exec()
+		{
+		    M_TRACE("---------  Begin test_exec()  ---------\n");
+		    char buffer[1024];
+		    getcwd(buffer,1024);
+		    char *pathname=abs_path(buffer,"print_arg");
+		
+		    _test_execl(pathname); // 绝对路径名
+		    _test_execv(pathname); // 绝对路径名
+		    _test_execle(pathname); // 绝对路径名
+		    _test_execve(pathname); // 绝对路 径名
+		    _test_execlp("print_arg"); //相对文件名
+		    _test_execvp("print_arg"); //相对文件名
+		    M_TRACE("---------  End test_exec()  ---------\n\n");
+		}
+	
 	这里调用的`print_arg`程序非常简单，就是打印环境变量和命令行参数。其程序如下：
 
-	```
-//************* print_arg 程序的源代码 **********//
-//                                             //
-// 该程序的功能是打印环境变量以及参数列表            //
-//                                            //
-//********************************************//
-#include <stdio.h>
-#include<stdlib.h>
-#include<unistd.h>
-extern char **environ;
-void print_environ()
-{
-    printf("\t************Environment***************\n");
-    char **ptr=environ;
-    while(*ptr!=NULL)
-    {
-        printf("\t'%s'",*ptr);
-        ptr++;
-    }
-    printf("\n");
-}
-int main(int argc, char *argv[])
-{
-    printf("\t************Argument List***************\n");
-    for(int i=0;i<argc;i++)
-    {
-        printf("\t'%s'",argv[i]);
-    }
-    printf("\n");
-    print_environ();
-    return 0;
-}
-	```
+	
+		//************* print_arg 程序的源代码 **********//
+		//                                             //
+		// 该程序的功能是打印环境变量以及参数列表            //
+		//                                            //
+		//********************************************//
+		#include <stdio.h>
+		#include<stdlib.h>
+		#include<unistd.h>
+		extern char **environ;
+		void print_environ()
+		{
+		    printf("\t************Environment***************\n");
+		    char **ptr=environ;
+		    while(*ptr!=NULL)
+		    {
+		        printf("\t'%s'",*ptr);
+		        ptr++;
+		    }
+		    printf("\n");
+		}
+		int main(int argc, char *argv[])
+		{
+		    printf("\t************Argument List***************\n");
+		    for(int i=0;i<argc;i++)
+		    {
+		        printf("\t'%s'",argv[i]);
+		    }
+		    printf("\n");
+		    print_environ();
+		    return 0;
+		}
+	
 	编译`print_arg`程序后，将它放置在目录`build-APUE-Desktop_Qt_5_5_1_GCC_64bit-Debug`下，并且向`PATH`中添加主目录路径。在`shell`中输入命令：
 	
-	```
-	PATH=$PATH:/home/huaxz1986/build-APUE-Desktop_Qt_5_5_1_GCC_64bit-Debug
-	```
+	
+		PATH=$PATH:/home/huaxz1986/build-APUE-Desktop_Qt_5_5_1_GCC_64bit-Debug
+	
 	这是因为`execlp`和`execvp`需要`PATH`环境变量中寻找`filename`。如果未添加合适的路径，则程序提示指定的文件不存在。
 	
 	最终调用结果输出到文件，内容为（省略号中为环境变量内容，因太长所以这里只截取一部分）：
 
-	```
----------  Begin test_exec()  ---------
----------  End test_exec()  ---------
-
-	************Argument List***************
-	'execle_arg1'	'execle_arg2'
-	************Environment***************
-	'execle_env1=1'	'execle_env2=2'
-	************Argument List***************
-	'execv_arg1'	'execv_arg2'
-	************Environment***************
-	'XDG_VTNR=7'	'LC_PAPER=zh_CN.UTF-8'	'LC_ADDRESS=zh_CN.UTF-8'	
-	...	
-	'LC_NAME=zh_CN.UTF-8'	'XAUTHORITY=/home/huaxz1986/.Xauthority'	'_=./APUE'
-	************Argument List***************
-	'execve_arg1'	'execve_arg2'
-	************Environment***************
-	'execve_env1=1'	'execve_env2=2'
-	************Argument List***************
-	'execvp_arg1'	'execvp_arg2'
-	************Environment***************
-	'XDG_VTNR=7'	'LC_PAPER=zh_CN.UTF-8'	'LC_ADDRESS=zh_CN.UTF-8'	
-	...	
-	'LC_NAME=zh_CN.UTF-8'	'XAUTHORITY=/home/huaxz1986/.Xauthority'	'_=./APUE'
-	************Argument List***************
-	'execlp_arg1'	'execlp_arg2'
-	************Environment***************
-	'XDG_VTNR=7'	'LC_PAPER=zh_CN.UTF-8'	'LC_ADDRESS=zh_CN.UTF-8'	
-	...	
-	'LC_NAME=zh_CN.UTF-8'	'XAUTHORITY=/home/huaxz1986/.Xauthority'	'_=./APUE'
-	************Argument List***************
-	'execl_arg1'	'execl_arg2'
-	************Environment***************
-	'XDG_VTNR=7'	'LC_PAPER=zh_CN.UTF-8'	'LC_ADDRESS=zh_CN.UTF-8'	
-	...	
-	'LC_NAME=zh_CN.UTF-8'	'XAUTHORITY=/home/huaxz1986/.Xauthority'	'_=./APUE'
-	```
+	
+		---------  Begin test_exec()  ---------
+		---------  End test_exec()  ---------
+		
+			************Argument List***************
+			'execle_arg1'	'execle_arg2'
+			************Environment***************
+			'execle_env1=1'	'execle_env2=2'
+			************Argument List***************
+			'execv_arg1'	'execv_arg2'
+			************Environment***************
+			'XDG_VTNR=7'	'LC_PAPER=zh_CN.UTF-8'	'LC_ADDRESS=zh_CN.UTF-8'	
+			...	
+			'LC_NAME=zh_CN.UTF-8'	'XAUTHORITY=/home/huaxz1986/.Xauthority'	'_=./APUE'
+			************Argument List***************
+			'execve_arg1'	'execve_arg2'
+			************Environment***************
+			'execve_env1=1'	'execve_env2=2'
+			************Argument List***************
+			'execvp_arg1'	'execvp_arg2'
+			************Environment***************
+			'XDG_VTNR=7'	'LC_PAPER=zh_CN.UTF-8'	'LC_ADDRESS=zh_CN.UTF-8'	
+			...	
+			'LC_NAME=zh_CN.UTF-8'	'XAUTHORITY=/home/huaxz1986/.Xauthority'	'_=./APUE'
+			************Argument List***************
+			'execlp_arg1'	'execlp_arg2'
+			************Environment***************
+			'XDG_VTNR=7'	'LC_PAPER=zh_CN.UTF-8'	'LC_ADDRESS=zh_CN.UTF-8'	
+			...	
+			'LC_NAME=zh_CN.UTF-8'	'XAUTHORITY=/home/huaxz1986/.Xauthority'	'_=./APUE'
+			************Argument List***************
+			'execl_arg1'	'execl_arg2'
+			************Environment***************
+			'XDG_VTNR=7'	'LC_PAPER=zh_CN.UTF-8'	'LC_ADDRESS=zh_CN.UTF-8'	
+			...	
+			'LC_NAME=zh_CN.UTF-8'	'XAUTHORITY=/home/huaxz1986/.Xauthority'	'_=./APUE'
+	
 	可以发现：
 	- `execl/execv/execvp/execlp`继承了父进程的环境变量；`execle/execve`指定了环境变量
 	- `execvp/execlp`在`PATH`中正确搜索到了可执行文件
@@ -569,10 +569,10 @@ int main(int argc, char *argv[])
 
 7. `system`函数：在程序中执行一个命令字符串
 
-	```
-	#include<stdlib.h>
-	int system(const char *cmdstring);
-	```
+	
+		#include<stdlib.h>
+		int system(const char *cmdstring);
+	
 	- 参数：
 		- `cmdstring`：命令字符串（在`shell`中执行），如 `"ps -aux"`
 	- 返回值：
@@ -593,16 +593,16 @@ int main(int argc, char *argv[])
 
 8. 示例：在`main`函数中调用`test_system`函数：
 
-	```
-void test_system()
-{
-    M_TRACE("---------  Begin test_system()  ---------\n");
-    My_system("ls /home"); //命令存在
-    My_system("ttttt"); // 不存在命令
-    M_TRACE("---------  End test_system()  ---------\n\n");
-}
+	
+	void test_system()
+	{
+	    M_TRACE("---------  Begin test_system()  ---------\n");
+	    My_system("ls /home"); //命令存在
+	    My_system("ttttt"); // 不存在命令
+	    M_TRACE("---------  End test_system()  ---------\n\n");
+	}
 
-	```
+	
 	注意：调用`system`后不再需要调用`wait`等进程控制原语了。这一切控制由`system`打包
 
 	![system](../imgs/progress_control/system.JPG)
@@ -617,11 +617,11 @@ void test_system()
 
 2. `setuid/setgid`函数：设置实际用户ID和有效用户ID/ 实际组ID和有效组ID
 
-	```
-	#include<unistd.h>
-	int setuid(uid_t uid);
-	int setgid(gid_t gid);
-	```
+	
+		#include<unistd.h>
+		int setuid(uid_t uid);
+		int setgid(gid_t gid);
+	
 	- 参数：
 		- `uid`：待设置的用户`ID`
 		- `gid`：待设置的组`ID`
@@ -647,11 +647,11 @@ void test_system()
 
 4. `POSIX`提供了两个函数：
 
-	```
-	#include<unistd.h>
-	int seteuid(uid_t uid);
-	int setegid(gid_t gid);
-	```
+	
+		#include<unistd.h>
+		int seteuid(uid_t uid);
+		int setegid(gid_t gid);
+	
 	- 参数：
 		- `uid`：待设置的有效用户`ID`
 		- `gid`：待设置的有效组`ID`
@@ -665,10 +665,10 @@ void test_system()
 	- 针对`setegid`的讨论类似`seteuid`
 5. `getlogin`：获取运行该程序的用户的登录名
 	
-	```
-	#include<unistd.h>
-	char *getlogin(void);
-	```
+	
+		#include<unistd.h>
+		char *getlogin(void);
+	
 	- 返回值：
 		- 成功：返回指向登录名字符串的指针
 		- 失败：返回`NULL`
@@ -677,39 +677,39 @@ void test_system()
 
 6. 示例：在`main`函数中调用`test_setuid_seteuid`函数：
 
-	```
-void test_setuid_seteuid()
-{
-    M_TRACE("---------  Begin test_setuid_seteuid()  ---------\n");
-    struct passwd* result=My_getpwnam("huaxz1986");
-    if(NULL==result)
-    {
-        M_TRACE("---------  End test_setuid_seteuid()  ---------\n\n");
-        return;
-    }
-
-    My_getlogin();
-    printf("\n********** Before set id **********\n");
-    print_uid();
-    print_gid();
-    print_euid();
-    print_egid();
-    printf("\n********** After set id **********\n");
-    My_setuid(result->pw_uid); // 二选一
-    My_setgid(result->pw_gid); // 二选一
-    My_seteuid(result->pw_uid); // 二选一
-    My_setegid(result->pw_gid); // 二选一
-//    My_setuid(0); // 二选一
-//    My_setgid(0); // 二选一
-//    My_seteuid(0); // 二选一
-//    My_setegid(0); // 二选一
-    print_uid();
-    print_gid();
-    print_euid();
-    print_egid();
-    M_TRACE("---------  End test_setuid_seteuid()  ---------\n\n");
-}
-	```
+	
+		void test_setuid_seteuid()
+		{
+		    M_TRACE("---------  Begin test_setuid_seteuid()  ---------\n");
+		    struct passwd* result=My_getpwnam("huaxz1986");
+		    if(NULL==result)
+		    {
+		        M_TRACE("---------  End test_setuid_seteuid()  ---------\n\n");
+		        return;
+		    }
+		
+		    My_getlogin();
+		    printf("\n********** Before set id **********\n");
+		    print_uid();
+		    print_gid();
+		    print_euid();
+		    print_egid();
+		    printf("\n********** After set id **********\n");
+		    My_setuid(result->pw_uid); // 二选一
+		    My_setgid(result->pw_gid); // 二选一
+		    My_seteuid(result->pw_uid); // 二选一
+		    My_setegid(result->pw_gid); // 二选一
+		//    My_setuid(0); // 二选一
+		//    My_setgid(0); // 二选一
+		//    My_seteuid(0); // 二选一
+		//    My_setegid(0); // 二选一
+		    print_uid();
+		    print_gid();
+		    print_euid();
+		    print_egid();
+		    M_TRACE("---------  End test_setuid_seteuid()  ---------\n\n");
+		}
+	
 	我们首先在普通用户状态下，将那些 `id`都设置成超级用户所属的用户`ID`和组`ID`：
 
 	![setuid_seteuid](../imgs/progress_control/setuid_seteuid.JPG)
@@ -736,25 +736,25 @@ void test_setuid_seteuid()
 	- 会计记录文件是个二进制文件，包含的会计记录是二进制数据
 2. 会计记录结构定义在`<sys/acct.h>`头文件中。虽然各个操作系统的实现可能有差别，但是基本数据如下：
 
-	```
-	typedef u_short comp_t;
-	struct acct
-	{
-		char ac_flag;  	//标记
-		char ac_stat; 	//终止状态
-		uid_t ac_uid; 	//真实用户ID
-		gid_t ac_gid;	//真实组ID
-		dev_t ac_tty;	// 控制终端
-		time_t ac_btime;// 起始的日历时间
-		comp_t ac_utime;// 用户 CPU 时间
-		comp_t ac_stime;// 系统 CPU 时间
-		comp_t ac_etime;// 流逝时间
-		comp_t ac_mem;	// 平均内存使用
-		comp_t ac_io;	// `read`和`write`字节数量
-		comp_t ac_rw;	// `read`和`write`的块数
-		char ac_comm[8];//命令名。对于LINUX ，则是 ac_comm[17]
-	};
-	```
+	
+		typedef u_short comp_t;
+		struct acct
+		{
+			char ac_flag;  	//标记
+			char ac_stat; 	//终止状态
+			uid_t ac_uid; 	//真实用户ID
+			gid_t ac_gid;	//真实组ID
+			dev_t ac_tty;	// 控制终端
+			time_t ac_btime;// 起始的日历时间
+			comp_t ac_utime;// 用户 CPU 时间
+			comp_t ac_stime;// 系统 CPU 时间
+			comp_t ac_etime;// 流逝时间
+			comp_t ac_mem;	// 平均内存使用
+			comp_t ac_io;	// `read`和`write`字节数量
+			comp_t ac_rw;	// `read`和`write`的块数
+			char ac_comm[8];//命令名。对于LINUX ，则是 ac_comm[17]
+		};
+	
 	- `ac_flag`记录了进程执行期间的某些事件：
 		- `AFORK`：进程是由`fork`产生的，但从未调用`exec`
 		- `ASU`：进程使用超级用户特区
@@ -769,10 +769,10 @@ void test_setuid_seteuid()
 
 3. `times`函数：任何进程都可以用该函数获取它自己以及已经终止子进程的运行时间
 
-	```
-	#include<sys/times.h>
-	clock_t times(struct tms *buf);
-	```
+	
+		#include<sys/times.h>
+		clock_t times(struct tms *buf);
+	
 	- 参数：
 		- `buf`：执行`tms`结构的指针。该结构由`times`填写并返回
 	- 返回值：
@@ -794,13 +794,13 @@ void test_setuid_seteuid()
 
 	`times`函数就是获取进程的这几个时间的。这里的`tms`结构定义为：
 
-	```
-	struct tms{
-		clock_t tms_utime;  //用户 CPU 时间
-		clock_t tms_stime;  //系统 CPU 时间
-		clock_t tms_cutime; //终止的子进程的用户 CPU 时间的累加值
-		clock_t tms_cstime; //终止的子进程的系统 CPU 时间的累加值
-	```
+	
+		struct tms{
+			clock_t tms_utime;  //用户 CPU 时间
+			clock_t tms_stime;  //系统 CPU 时间
+			clock_t tms_cutime; //终止的子进程的用户 CPU 时间的累加值
+			clock_t tms_cstime; //终止的子进程的系统 CPU 时间的累加值
+	
 	注意：
 	- 墙上时钟是相对于过去某个时刻度量的，所以不能用其绝对值而必须用相对值。通常的用法是：调用两次`times`，然后取两次墙上时钟的差值
 	- `tms_cutime`和`tms_cstime`包含了`wait`函数族已经等待到的各个子进程的值
@@ -808,37 +808,37 @@ void test_setuid_seteuid()
 
 4. 示例：在`main`函数中调用`test_progress_times`函数：
 
-	```
-void test_progress_times()
-{
-    M_TRACE("---------  Begin test_progress_times()  ---------\n");
-    assert(prepare_file("test","abc",3,S_IRWXU)==0);
-    int fd=My_open("test",O_RDWR);
-    if(-1==fd)
-    {
-        un_prepare_file("test");
-        M_TRACE("---------  End test_fork()  ---------\n\n");
-        return;
-    }
-    //****** 打开文件成功 *************//
-    clock_t t1,t2;
-    struct tms buf;
-    t1=times(&buf);
-    create_child(fd,1000000000);// 子进程直接 _exit
-    create_child(fd,2000000000);// 子进程直接 _exit
-    sleep(5);// 让子进程获得锁，否则父进程持有锁，然后等待子进程结束，最后死锁
-    fcntl_lock(fd);  // 加锁
-    busy_work(1000000000);// 只有父进程能到达这里
-    check_waitpid();
-    t2=My_times(&buf);
-    printf("Parent elapsed time is %d s\n",clock_2_second(t2-t1));\
-    fcntl_unlock(fd); // 解锁
-
-    close(fd);
-    un_prepare_file("test");
-    M_TRACE("---------  End test_progress_times()  ---------\n\n");
-}
-	```
+	
+		void test_progress_times()
+		{
+		    M_TRACE("---------  Begin test_progress_times()  ---------\n");
+		    assert(prepare_file("test","abc",3,S_IRWXU)==0);
+		    int fd=My_open("test",O_RDWR);
+		    if(-1==fd)
+		    {
+		        un_prepare_file("test");
+		        M_TRACE("---------  End test_fork()  ---------\n\n");
+		        return;
+		    }
+		    //****** 打开文件成功 *************//
+		    clock_t t1,t2;
+		    struct tms buf;
+		    t1=times(&buf);
+		    create_child(fd,1000000000);// 子进程直接 _exit
+		    create_child(fd,2000000000);// 子进程直接 _exit
+		    sleep(5);// 让子进程获得锁，否则父进程持有锁，然后等待子进程结束，最后死锁
+		    fcntl_lock(fd);  // 加锁
+		    busy_work(1000000000);// 只有父进程能到达这里
+		    check_waitpid();
+		    t2=My_times(&buf);
+		    printf("Parent elapsed time is %d s\n",clock_2_second(t2-t1));\
+		    fcntl_unlock(fd); // 解锁
+		
+		    close(fd);
+		    un_prepare_file("test");
+		    M_TRACE("---------  End test_progress_times()  ---------\n\n");
+		}
+			
 	![times](../imgs/progress_control/times.JPG)
 
 	该示例的父进程派生了两个子进程。每个子进程都睡眠了 2秒
@@ -870,10 +870,10 @@ void test_progress_times()
 
 3. `nice`函数：进程通过它来获取自己的`nice`值或者修改自己的`nice`值：
 
-	```
-	#include<unistd.h>
-	int nice(int incr);
-	```
+	
+		#include<unistd.h>
+		int nice(int incr);
+	
 	- 参数：
 		- `incr`：`nice`值的增量
 	- 返回值：
@@ -887,11 +887,11 @@ void test_progress_times()
 
 4. `getpriority/setpriority`函数：获取/设置进程的`nice`值：
 
-	```
-	#include<sys/resource.h>
-	int getpriority(int which,id_t who);
-	int setpriority(int which,id_t who,int value);
-	```
+	
+		#include<sys/resource.h>
+		int getpriority(int which,id_t who);
+		int setpriority(int which,id_t who,int value);
+	
 	- 参数：
 		- `which`：控制`who`参数是如何解释的。可以取三个值之一：
 			- `PRIO_PROCESS`：表示进程
@@ -910,17 +910,17 @@ void test_progress_times()
 
 5. 示例：在`main`函数中调用`test_getpriority_setpriority`函数:
 
-	```
-void test_getpriority_setpriority()
-{
-    M_TRACE("---------  Begin test_getpriority_setpriority()  ---------\n");
-    create_child();
-    // 只有父进程能到此处
-    check_waitpid();
-    My_getpriority(PRIO_PROCESS,0); // 父进程自己的 nice 值
-    M_TRACE("---------  End test_getpriority_setpriority()  --------\n\n");
-}
-	```
+			
+		void test_getpriority_setpriority()
+		{
+		    M_TRACE("---------  Begin test_getpriority_setpriority()  ---------\n");
+		    create_child();
+		    // 只有父进程能到此处
+		    check_waitpid();
+		    My_getpriority(PRIO_PROCESS,0); // 父进程自己的 nice 值
+		    M_TRACE("---------  End test_getpriority_setpriority()  --------\n\n");
+		}
+			
 	![nice](../imgs/progress_control/nice.JPG) 
 	可以看到，如果为普通用户，则没有权限降低`nice`值。因为普通进程没有权限提升其优先级（即降低`nice`值）。在超级用户权限下，结果如下：
 	![nice2](../imgs/progress_control/nice2.JPG) 

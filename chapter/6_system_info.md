@@ -32,11 +32,11 @@
 
 2. `getpwuid/getpwnam`函数：读取口令文件：
 	
-	```
-	#include<pwd.h>
-	struct passwd* getpwuid(uid_t uid);
-	struct passwd* getpwnam(const char*name);
-	```
+	
+		#include<pwd.h>
+		struct passwd* getpwuid(uid_t uid);
+		struct passwd* getpwnam(const char*name);
+	
 	- 参数：
 		- `uid`：用户ID
 		- `name`：用户名
@@ -48,12 +48,12 @@
 
 3. 查看整个口令文件，使用下面的函数：
 	
-	```
-	#include<pwd.h>
-	struct passwd *getpwent(void);
-	void setpwent(void);
-	void endpwent(void);
-	```
+	
+		#include<pwd.h>
+		struct passwd *getpwent(void);
+		void setpwent(void);
+		void endpwent(void);
+	
 	- `getpwent`返回值：
 		- 成功：返回`passwd`结构的指针
 		- 失败：返回`NULL`
@@ -90,13 +90,13 @@
 
 5. 用于读取阴影口令文件的函数为：
 
-	```
-	#include<shadow.h>
-	struct spwd *getspnam(const char*name);
-	struct spwd *getspent(void);
-	void setspent(void);
-	void endspent(void);
-	```
+	
+		#include<shadow.h>
+		struct spwd *getspnam(const char*name);
+		struct spwd *getspent(void);
+		void setspent(void);
+		void endspent(void);
+	
 	-  `getspnam`参数：
 		- `name`：用户名
 	- `getspnam`返回值：
@@ -129,11 +129,11 @@
 
 7. `getgrgid/getgrnam`函数：查看组文件：
 
-	```
-	#include<grp.h>
-	struct group* getgrgid(gid_t gid);
-	struct group* getgrnam(const char* name);
-	```
+	
+		#include<grp.h>
+		struct group* getgrgid(gid_t gid);
+		struct group* getgrnam(const char* name);
+	
 	- 参数：
 		- `gid`：组ID
 		- `name`：组名
@@ -145,12 +145,12 @@
 
 8. 查看整个组文件，使用下面的函数：
 	
-	```
-	#include<grp.h>
-	struct group *getgrent(void);
-	void setgrent(void);
-	void endgrent(void);
-	```
+	
+		#include<grp.h>
+		struct group *getgrent(void);
+		void setgrent(void);
+		void endgrent(void);
+	
 	- `getgrent`返回值：
 		- 成功：返回`group`结构的指针
 		- 失败：返回`NULL`
@@ -167,18 +167,18 @@
 
 9. UNIX中还提供了附属组ID。其中获取和设置附属组ID的函数为：
 
-	```
-	#include<unistd.h>
-	int getgroups(int gidsetsize,gid_t grouplist[]);
-
-	#include<grp.h>    	//对Linux
-	#include<unistd.h>	//对 FreeBSD, Mac OS X, Solaris
-	int setgroups(int ngroups,const gid_t grouplist[]);
-
-	#include<grp.h>    	//对Linux
-	#include<unistd.h>	//对 FreeBSD, Mac OS X, Solaris
-	int initgroups(const char *username, gid_t basegid);	
-	```
+	
+		#include<unistd.h>
+		int getgroups(int gidsetsize,gid_t grouplist[]);
+	
+		#include<grp.h>    	//对Linux
+		#include<unistd.h>	//对 FreeBSD, Mac OS X, Solaris
+		int setgroups(int ngroups,const gid_t grouplist[]);
+	
+		#include<grp.h>    	//对Linux
+		#include<unistd.h>	//对 FreeBSD, Mac OS X, Solaris
+		int initgroups(const char *username, gid_t basegid);	
+	
 
 	参数：
 
@@ -237,13 +237,13 @@
 
 	每次写入到这两个文件的是下列结构的一个二进制记录：
 
-	```
-	struct utmp{
-		char ut_line[8];   // 登录的 tty 
-		char ut_name[9];   //登录用户名
-		long ut_time;	   //自1970.01.01 00：00：00 经过的秒数
-	}
-	```
+	
+		struct utmp{
+			char ut_line[8];   // 登录的 tty 
+			char ut_name[9];   //登录用户名
+			long ut_time;	   //自1970.01.01 00：00：00 经过的秒数
+		}
+	
 	- 登录时，`login`程序填写此类结构，然后将其写入到`utmp`文件中，同时也将其添写到`wtmp`文件中
 	- 注销时，`init`进程将`utmp`文件中相应的记录擦除（每个字节都填写`null`字节），并将一个新的记录添写到`wtmp`文件中
 	- 在系统重启时，以及更改系统时间和日期的前后，都将在`wtmp`文件中追加写特殊的记录项
@@ -253,10 +253,10 @@
 
 12. `uname`函数：返回主机和操作系统的有关信息：
 
-	```
-	#include<sys/utsname.h>
-	int uname(struct utsname *name);
-	```
+	
+		#include<sys/utsname.h>
+		int uname(struct utsname *name);
+	
 	- 参数：
 		- `name`：一个`utsname`结构的地址，该函数会填写此结构
 	- 返回值：
@@ -265,24 +265,24 @@
 
 	POSIX 之定义了`utsname`结构最少需要提供的字段（全部是字符数组），某些操作系统会在该结构中提供了另外一些字段：
 
-	```
-	struct utsname {
-		char sysname[];  //操作系统的名字
-		char nodename[]; // 节点名字
-		char release[];  //当前操作系统的 release
-		char version[];  //该 release 的版本
-		char machine[];  //硬件类型
-	}
-	```
+	
+		struct utsname {
+			char sysname[];  //操作系统的名字
+			char nodename[]; // 节点名字
+			char release[];  //当前操作系统的 release
+			char version[];  //该 release 的版本
+			char machine[];  //硬件类型
+		}
+	
 	这些字符串都是以`null`结尾。
 	> 通常 `uname` 命令会打印`utsname`结构中的信息
 
 13. `gethostname`函数：返回主机名。改名字通常就是 `TCP/IP` 网络上主机的名字：
 
-	```
-	#include<unistd.h>
-	int gethostname(char *name,int namelen);
-	```
+	
+		#include<unistd.h>
+		int gethostname(char *name,int namelen);
+	
 	- 参数：
 		- `name`：放置主机名字符串的缓冲区
 		- `namelen`：`name`缓冲区的长度
@@ -295,23 +295,23 @@
 
 14. 示例：在`main`函数中调用`test_system_file`函数：
 	
-	```
-void test_system_file()
-{
-    M_TRACE("---------  Begin test_system_file()  ---------\n");
-    printf("********* test passwd ************\n");
-    _test_passwd();
-    printf("\n\n********* test shadow ************\n");
-    _test_shadow();
-    printf("\n\n********* test group ************\n");
-    _test_group();
-    printf("\n\n********* test attach groups ************\n");
-    _test_attach_groups();
-    printf("\n\n********* test host ************\n");
-    _test_host();
-    M_TRACE("---------  End test_system_file()  ---------\n\n");
-}
-	```
+	
+		void test_system_file()
+		{
+		    M_TRACE("---------  Begin test_system_file()  ---------\n");
+		    printf("********* test passwd ************\n");
+		    _test_passwd();
+		    printf("\n\n********* test shadow ************\n");
+		    _test_shadow();
+		    printf("\n\n********* test group ************\n");
+		    _test_group();
+		    printf("\n\n********* test attach groups ************\n");
+		    _test_attach_groups();
+		    printf("\n\n********* test host ************\n");
+		    _test_host();
+		    M_TRACE("---------  End test_system_file()  ---------\n\n");
+		}
+	
 
 	注意：
 	- `getpwuid`、`getpwnam`、`getgrgid`、`getgrnam`函数失败时，并不会修改`errno`
@@ -339,10 +339,10 @@ void test_system_file()
 
 3. `clock_gettime`函数：用于获取指定的时钟类型的时间：
 
-	```
-	#include<sys/time.h>
-	int clock_gettime(clockid_t clock_id,struct timespec *tsp);
-	```
+	
+		#include<sys/time.h>
+		int clock_gettime(clockid_t clock_id,struct timespec *tsp);
+	
 	- 参数：
 		- `clock_id`：时钟类型。
 			- `CLOCK_REALTIME`：获取实时系统时间。此时`clock_gettime`函数提供了与`time`函数类似的功能。不过在系统支持高精度时间值的情况下，`clock_gettime`可能比`time`函数得到更高精度的时间值。
@@ -356,10 +356,10 @@ void test_system_file()
 
 4. `clock_getres`函数：时间精度调整
 	
-	```
-	#include<sys/time.h>
-	int clock_getres(clockid_t clock_id,struct timespec *tsp);
-	```
+	
+		#include<sys/time.h>
+		int clock_getres(clockid_t clock_id,struct timespec *tsp);
+	
 	- 参数：
 		- `clock_id`：时钟类型。
 		- `tsp`：存放时间的`timespec`结构（它把时间表示为秒和纳秒）的指针
@@ -371,10 +371,10 @@ void test_system_file()
 
 5. `clock_settime`函数：设置时间
 
-	```
-	#include<sys/time.h>
-	int clock_settime(clockid_t clock_id,const struct timepsec *tsp);
-	```
+	
+		#include<sys/time.h>
+		int clock_settime(clockid_t clock_id,const struct timepsec *tsp);
+	
 	- 参数：
 		- `clock_id`：时钟类型。
 		- `tsp`：存放时间的`timespec`结构（它把时间表示为秒和纳秒）的指针
@@ -388,10 +388,10 @@ void test_system_file()
 
 6. `gettimeofday`函数：更高精度的获取当前时间（但是目前已经弃用）
 
-	```
-	#include<sys/time.h>
-	int gettimeofday(struct timeval *restrict tp,void *restrict tzp);
-	```
+	
+		#include<sys/time.h>
+		int gettimeofday(struct timeval *restrict tp,void *restrict tzp);
+	
 	- 参数：
 		- `tp`：存放当前时间的`timeval`结构（将当前时间表示为秒和微秒）的指针
 		- `tzp`：唯一合法值是`NULL`。其他任何值都产生未定义的结果
@@ -399,29 +399,29 @@ void test_system_file()
 		
 7. `gmtime/localtime`函数：将日历时间转换成`struct tm`结构：
 
-	```
-	#include<time.h>
-	struct tm* gmtime(const time_t *calptr);
-	struct tm* localtime(const time_t *calptr);
-	```
+	
+		#include<time.h>
+		struct tm* gmtime(const time_t *calptr);
+		struct tm* localtime(const time_t *calptr);
+	
 	- 参数：`calptr`：指向日历时间的指针
 	- 返回值：
 		- 成功：指向`struct tm`结构的指针
 		- 失败：返回`NULL`
 
-	```
-	struct tm{
-		int tm_sec; 	//秒数，范围是 [0~60]
-		int tm_min; 	//分钟数，范围是 [0~59]
-		int tm_hour;	//小时数，范围是 [0~23]。午夜12点是 0
-		int tm_mday;	//一个月中的天数，范围是 [1~31]
-		int tm_mon; 	//月数，范围是 [0~11] ，一月是 0	
-		int tm_year;	//年数，范围是 [1900~]，如果是16则表示 1916	
-		int tm_wday;	//一个星期中的天数，范围是 [0~6] ，周日是0
-		int tm_yday;	//一年中的天数，范围是 [0~365]，一月一号是 0
-		int tm_isdst;  //daylight saving time flag
-	}
-	```
+	
+				struct tm{
+					int tm_sec; 	//秒数，范围是 [0~60]
+					int tm_min; 	//分钟数，范围是 [0~59]
+					int tm_hour;	//小时数，范围是 [0~23]。午夜12点是 0
+					int tm_mday;	//一个月中的天数，范围是 [1~31]
+					int tm_mon; 	//月数，范围是 [0~11] ，一月是 0	
+					int tm_year;	//年数，范围是 [1900~]，如果是16则表示 1916	
+					int tm_wday;	//一个星期中的天数，范围是 [0~6] ，周日是0
+					int tm_yday;	//一年中的天数，范围是 [0~365]，一月一号是 0
+					int tm_isdst;  //daylight saving time flag
+				}
+	
 	其中秒可以超过 59 的理由是表示润秒	
 
 	`gmtime/localtime`函数的区别：
@@ -433,10 +433,10 @@ void test_system_file()
 		
 8. `mktime`函数：以本地时间的年月日等作为参数，将其变化成`time_t`值：
 
-	```
-	#include<time.h>
-	time_t mktime(struct tm*tmptr);
-	```
+	
+		#include<time.h>
+		time_t mktime(struct tm*tmptr);
+	
 	- 参数：	`tmptr`：指向`struct tm`结构的指针
 	- 返回值：
 		- 成功： 返回日历时间
@@ -446,13 +446,13 @@ void test_system_file()
 
 9. `strftime/strftime_l`函数：类似`printf`的打印时间的函数。它们可以通过可用的多个参数来定制产生的字符串
 
-	```
-	#include<time.h>
-	size_t strftime(char *restrict buf,size_t maxsize,const char*restrict format,
-		const struct tm* restrict tmptr);
-	size_t strftime_l(char *restrict buf,size_t maxsize,const char*restrict format,
-		const struct tm* restrict tmptr,locale_t locale);
-	```
+	
+		#include<time.h>
+		size_t strftime(char *restrict buf,size_t maxsize,const char*restrict format,
+			const struct tm* restrict tmptr);
+		size_t strftime_l(char *restrict buf,size_t maxsize,const char*restrict format,
+			const struct tm* restrict tmptr,locale_t locale);
+	
 	- 参数：
 		- `buf`：存放格式化后的时间字符串的缓冲区的地址
 		- `maxsize`：存放格式化后的时间字符串的缓冲区的大小
@@ -509,11 +509,11 @@ void test_system_file()
 
 10. `strptime`函数：它是`strftime`的逆向过程，把时间字符串转换成`struct tm`时间
 
-	```
-	#include<time.h>
-	char *strptime(const char*restrict buf,const char*restrict format,
-		struct tm*restrict tmptr);
-	```
+	
+		#include<time.h>
+		char *strptime(const char*restrict buf,const char*restrict format,
+			struct tm*restrict tmptr);
+	
 	- 参数：
 		- `buf`：存放已经格式化的时间字符串的缓冲区的地址
 		- `format`：给出了`buf`缓冲区中的格式化时间字符串的格式
@@ -532,41 +532,41 @@ void test_system_file()
 
 11. 示例：在`main`函数中调用`test_times`函数：
 
-	```
-void test_times()
-{
-    M_TRACE("---------  Begin test_times()  ---------\n");
-    struct timespec tsp_time;
-    struct timeval tvl_time;
-    time_t tm_t;
-
-    My_time(NULL);
-
-    printf("\n\n******** test clock_gettime *********\n");
-    My_clock_gettime(CLOCK_REALTIME,&tsp_time);
-    My_clock_gettime(CLOCK_MONOTONIC,&tsp_time);
-    My_clock_gettime(CLOCK_PROCESS_CPUTIME_ID,&tsp_time);
-    My_clock_gettime(CLOCK_THREAD_CPUTIME_ID,&tsp_time);
-    printf("\n\n******** test clock_getres  *********\n");
-    tsp_time.tv_sec=time(NULL);  //重新设定为当前时间
-    My_clock_getres(CLOCK_REALTIME,&tsp_time); //获取始终精度，只有 ns 单位才有意义
-    My_clock_getres(CLOCK_MONOTONIC,&tsp_time); //获取始终精度，只有 ns 单位才有意义
-    My_clock_getres(CLOCK_PROCESS_CPUTIME_ID,&tsp_time); //获取始终精度，只有 ns 单位才有意义
-    My_clock_getres(CLOCK_THREAD_CPUTIME_ID,&tsp_time); //获取始终精度，只有 ns 单位才有意义
-    printf("\n\n******** test clock_settime *********\n");
-    tsp_time.tv_sec=time(NULL);  //重新设定为当前时间
-    My_clock_settime(CLOCK_REALTIME,&tsp_time);
-    My_clock_settime(CLOCK_MONOTONIC,&tsp_time);
-    My_clock_settime(CLOCK_PROCESS_CPUTIME_ID,&tsp_time);
-    My_clock_settime(CLOCK_THREAD_CPUTIME_ID,&tsp_time);
-    printf("\n\n");
-    My_gettimeofday(&tvl_time,NULL);
-    tm_t=time(NULL); // 初始化 tm_t
-    struct tm * tm_tm=My_gmtime(&tm_t);
-    My_localtime(&tm_t);
-    My_mktime(tm_tm);
-    M_TRACE("---------  End test_times()  ---------\n\n");
-}	
-	```
+	
+	void test_times()
+	{
+	    M_TRACE("---------  Begin test_times()  ---------\n");
+	    struct timespec tsp_time;
+	    struct timeval tvl_time;
+	    time_t tm_t;
+	
+	    My_time(NULL);
+	
+	    printf("\n\n******** test clock_gettime *********\n");
+	    My_clock_gettime(CLOCK_REALTIME,&tsp_time);
+	    My_clock_gettime(CLOCK_MONOTONIC,&tsp_time);
+	    My_clock_gettime(CLOCK_PROCESS_CPUTIME_ID,&tsp_time);
+	    My_clock_gettime(CLOCK_THREAD_CPUTIME_ID,&tsp_time);
+	    printf("\n\n******** test clock_getres  *********\n");
+	    tsp_time.tv_sec=time(NULL);  //重新设定为当前时间
+	    My_clock_getres(CLOCK_REALTIME,&tsp_time); //获取始终精度，只有 ns 单位才有意义
+	    My_clock_getres(CLOCK_MONOTONIC,&tsp_time); //获取始终精度，只有 ns 单位才有意义
+	    My_clock_getres(CLOCK_PROCESS_CPUTIME_ID,&tsp_time); //获取始终精度，只有 ns 单位才有意义
+	    My_clock_getres(CLOCK_THREAD_CPUTIME_ID,&tsp_time); //获取始终精度，只有 ns 单位才有意义
+	    printf("\n\n******** test clock_settime *********\n");
+	    tsp_time.tv_sec=time(NULL);  //重新设定为当前时间
+	    My_clock_settime(CLOCK_REALTIME,&tsp_time);
+	    My_clock_settime(CLOCK_MONOTONIC,&tsp_time);
+	    My_clock_settime(CLOCK_PROCESS_CPUTIME_ID,&tsp_time);
+	    My_clock_settime(CLOCK_THREAD_CPUTIME_ID,&tsp_time);
+	    printf("\n\n");
+	    My_gettimeofday(&tvl_time,NULL);
+	    tm_t=time(NULL); // 初始化 tm_t
+	    struct tm * tm_tm=My_gmtime(&tm_t);
+	    My_localtime(&tm_t);
+	    My_mktime(tm_tm);
+	    M_TRACE("---------  End test_times()  ---------\n\n");
+	}	
+	
 
   	![time](../imgs/system_info/time.JPG)  
