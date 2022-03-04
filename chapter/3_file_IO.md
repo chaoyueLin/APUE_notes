@@ -11,11 +11,11 @@
 
 2. `open`和`openat`函数：打开文件
 
-	```
-	#include<fcntl.h>
-	int open(const char* path,int oflag,.../*mode_t mode*/);
-	int openat(int fd,const char*path,int oflag,.../*mode_t mode */);
-	```
+	
+		#include<fcntl.h>
+		int open(const char* path,int oflag,.../*mode_t mode*/);
+		int openat(int fd,const char*path,int oflag,.../*mode_t mode */);
+	
 
 	- 参数：
 		- `path`:要打开或者创建文件的名字
@@ -64,10 +64,10 @@
 
 3. `creat`函数：创建一个新文件
 
-	```
-	#include<fcntl.h>
-	int creat(const char*path,mode_t mode);
-	```
+	
+		#include<fcntl.h>
+		int creat(const char*path,mode_t mode);
+	
 
 	- 参数：
 		- `path`:要创建文件的名字
@@ -91,23 +91,23 @@
 
 4. 打开和创建文件的测试。在 `main`函数中调用`test_open_creat()`函数：
 
-	```
-void test_open_creat()
-{
-    M_TRACE("---------  Begin test_open_creat()  ---------\n");
-    My_open("./test1",O_RDWR); // 一个存在的文件
-    My_open("./no_such_file1",O_RDWR);  // 一个不存在的文件
-    My_open_with_mode("./test2",O_RDWR,S_IRUSR|S_IWUSR); // 一个存在的文件
-    My_open_with_mode("./no_such_file2",O_RDWR,S_IRUSR|S_IWUSR); // 一个不存在的文件
-    My_open_with_mode("./test3",O_RDWR|O_CREAT,S_IRUSR|S_IWUSR); // 一个存在的文件 ，带 O_CREAT 标志
-    My_open_with_mode("./no_such_file3",O_RDWR|O_CREAT,S_IRUSR|S_IWUSR); // 一个不存在的文件 ，带 O_CREAT 标志
-    My_open_with_mode("./test4",O_RDWR|O_CREAT|O_EXCL,S_IRUSR|S_IWUSR); // 一个存在的文件 ，带 O_CREAT|O_EXCL 标志
-    My_open_with_mode("./no_such_file4",O_RDWR|O_CREAT|O_EXCL,S_IRUSR|S_IWUSR); // 一个不存在的文件，带 O_CREAT|O_EXCL 标志
-    My_creat("./test5",S_IRUSR|S_IWUSR); // 一个存在的文件
-    My_creat("./no_such_file5",S_IRUSR|S_IWUSR); // 一个不存在的文件
-    M_TRACE("---------  End test_open_creat()  ---------\n\n");
-}
-	```
+	
+		void test_open_creat()
+		{
+		    M_TRACE("---------  Begin test_open_creat()  ---------\n");
+		    My_open("./test1",O_RDWR); // 一个存在的文件
+		    My_open("./no_such_file1",O_RDWR);  // 一个不存在的文件
+		    My_open_with_mode("./test2",O_RDWR,S_IRUSR|S_IWUSR); // 一个存在的文件
+		    My_open_with_mode("./no_such_file2",O_RDWR,S_IRUSR|S_IWUSR); // 一个不存在的文件
+		    My_open_with_mode("./test3",O_RDWR|O_CREAT,S_IRUSR|S_IWUSR); // 一个存在的文件 ，带 O_CREAT 标志
+		    My_open_with_mode("./no_such_file3",O_RDWR|O_CREAT,S_IRUSR|S_IWUSR); // 一个不存在的文件 ，带 O_CREAT 标志
+		    My_open_with_mode("./test4",O_RDWR|O_CREAT|O_EXCL,S_IRUSR|S_IWUSR); // 一个存在的文件 ，带 O_CREAT|O_EXCL 标志
+		    My_open_with_mode("./no_such_file4",O_RDWR|O_CREAT|O_EXCL,S_IRUSR|S_IWUSR); // 一个不存在的文件，带 O_CREAT|O_EXCL 标志
+		    My_creat("./test5",S_IRUSR|S_IWUSR); // 一个存在的文件
+		    My_creat("./no_such_file5",S_IRUSR|S_IWUSR); // 一个不存在的文件
+		    M_TRACE("---------  End test_open_creat()  ---------\n\n");
+		}
+	
   	![open_creat](../imgs/file_IO/open_creat.JPG) 
 
 	可以看到：
@@ -126,10 +126,10 @@ void test_open_creat()
 
 5. `close`函数：关闭文件
 
-	```
-	#include<unistd.h>
-	int close(int fd);
-	```
+	
+		#include<unistd.h>
+		int close(int fd);
+	
 
 	- 参数：
 		- `fd`：待关闭文件的文件描述符
@@ -145,10 +145,10 @@ void test_open_creat()
 
 1. `lseek`函数：设置打开文件的偏移量
 
-	```
-	#include<unistd.h>
-	off_t lseek(int fd, off_t offset,int whence);
-	```
+	
+		#include<unistd.h>
+		off_t lseek(int fd, off_t offset,int whence);
+		
 
 	- 参数：
 		- `fd`：打开的文件的文件描述符
@@ -171,10 +171,10 @@ void test_open_creat()
 
 2. `read`函数：读取文件内容
 
-	```
-	#include<unistd.h>
-	ssize_t read(int fd,void *buf,size_t nbytes);
-	```
+	
+		#include<unistd.h>
+		ssize_t read(int fd,void *buf,size_t nbytes);
+		
 
 	- 参数：
 		- `fd`：打开的文件的文件描述符
@@ -194,10 +194,10 @@ void test_open_creat()
 
 3. `write`函数：想文件写数据
 
-	```
-	#include<unistd.h>
-	ssize_t write(int fd,const void *buf,size_t nbytes);
-	```
+	
+		#include<unistd.h>
+		ssize_t write(int fd,const void *buf,size_t nbytes);
+	
 
 	- 参数：
 		- `fd`：打开的文件的文件描述符
@@ -213,34 +213,34 @@ void test_open_creat()
 
 4. 测试`lseek,read,write`。在 `main`函数中调用 `test_lseek_read_write`函数：
 
-	```
-void test_lseek_read_write()
-{
-    M_TRACE("---------  Begin test_lseek_read_write()  ---------\n");
-    int fd=My_open_with_mode("test",O_RDWR|O_TRUNC|O_CREAT,S_IRUSR|S_IWUSR);  // 读写打开，并截断
-    if(-1==fd)  return; // 文件打开失败
-    char read_buffer[20];
-    char write_buffer[10];
-
-    strcpy(write_buffer,"123456789"); // write_buffer 填充数字
-
-    My_read(fd,read_buffer,20); // 读文件，期望读 20 个字节
-    My_write(fd,write_buffer,10);// 写文件，期望写 10 个字节
-    My_read(fd,read_buffer,20);// 读文件，期望读 20 个字节
-    My_lseek(fd,0,SEEK_SET);// 定位文件到头部
-    My_read(fd,read_buffer,20);// 读文件，期望读 20 个字节
-    My_lseek(fd,10,SEEK_END);// 定位文件到尾部之后的 10 个字节
-    My_read(fd,read_buffer,20);// 读文件，期望读 20 个字节
-    My_write(fd,write_buffer,10);// 写文件，期望写 10 个字节
-    My_read(fd,read_buffer,20);// 读文件，期望读 20 个字节
-    My_lseek(fd,0,SEEK_SET);// 定位文件到头部
-    My_read(fd,read_buffer,20);// 读文件，期望读 20 个字节
-    My_read(fd,read_buffer,20);// 读文件，期望读 20 个字节
-    close(fd);
-    M_TRACE("---------  End test_lseek_read_write()  ---------\n\n");
-
-}
-	```
+	
+		void test_lseek_read_write()
+		{
+		    M_TRACE("---------  Begin test_lseek_read_write()  ---------\n");
+		    int fd=My_open_with_mode("test",O_RDWR|O_TRUNC|O_CREAT,S_IRUSR|S_IWUSR);  // 读写打开，并截断
+		    if(-1==fd)  return; // 文件打开失败
+		    char read_buffer[20];
+		    char write_buffer[10];
+		
+		    strcpy(write_buffer,"123456789"); // write_buffer 填充数字
+		
+		    My_read(fd,read_buffer,20); // 读文件，期望读 20 个字节
+		    My_write(fd,write_buffer,10);// 写文件，期望写 10 个字节
+		    My_read(fd,read_buffer,20);// 读文件，期望读 20 个字节
+		    My_lseek(fd,0,SEEK_SET);// 定位文件到头部
+		    My_read(fd,read_buffer,20);// 读文件，期望读 20 个字节
+		    My_lseek(fd,10,SEEK_END);// 定位文件到尾部之后的 10 个字节
+		    My_read(fd,read_buffer,20);// 读文件，期望读 20 个字节
+		    My_write(fd,write_buffer,10);// 写文件，期望写 10 个字节
+		    My_read(fd,read_buffer,20);// 读文件，期望读 20 个字节
+		    My_lseek(fd,0,SEEK_SET);// 定位文件到头部
+		    My_read(fd,read_buffer,20);// 读文件，期望读 20 个字节
+		    My_read(fd,read_buffer,20);// 读文件，期望读 20 个字节
+		    close(fd);
+		    M_TRACE("---------  End test_lseek_read_write()  ---------\n\n");
+		
+		}
+	
  	 ![lseek_read_write](../imgs/file_IO/lseek_read_write.JPG) 
 
 	测试序列为：
@@ -307,11 +307,11 @@ void test_lseek_read_write()
 
 3. `pread/pwrite`：原子定位读和原子定位写
 
-	```
-	#include<unistd.h>
-	ssize_t pread(int fd,void*buf,size_t nbytes,off_t offset);
-	ssize_t pwrite(int fd,const void*buf,size_t nbytes,off_t offset);
-	```
+	
+		#include<unistd.h>
+		ssize_t pread(int fd,void*buf,size_t nbytes,off_t offset);
+		ssize_t pwrite(int fd,const void*buf,size_t nbytes,off_t offset);
+	
 
 	- 参数：
 		- `fd`：打开的文件描述符
@@ -326,36 +326,36 @@ void test_lseek_read_write()
 
 	示例：在 `main`函数中调用 `test_pread_pwrite` 函数：
 
-	```
-void test_pread_pwrite()
-{
-    M_TRACE("---------  Begin test_pread_pwrite()  ---------\n");
-    int fd=My_open_with_mode("test",O_RDWR|O_TRUNC|O_CREAT,S_IRUSR|S_IWUSR);  // 读写打开，并截断
-    if(-1==fd)  return; // 文件打开失败
-    char read_buffer[20];
-    char write_buffer[20];
-    strcpy(write_buffer,"123456789"); // write_buffer 填充数字
-
-    // 写文件，期望写 10 个字节
-    My_write(fd,write_buffer,10);
-    print_current_offset(fd);
-    My_pread(fd,read_buffer,5,0 );// 读文件，期望读  5 个字节,从 偏移为 0 开始
-    print_current_offset(fd);
-    My_pwrite(fd,write_buffer,10,8);// 写文件，期望写 10 个字节，从 偏移为 8 开始
-    print_current_offset(fd);
-    close(fd);
-    M_TRACE("---------  End test_pread_pwrite()  ---------\n\n");
-}
-	```
+	
+		void test_pread_pwrite()
+		{
+		    M_TRACE("---------  Begin test_pread_pwrite()  ---------\n");
+		    int fd=My_open_with_mode("test",O_RDWR|O_TRUNC|O_CREAT,S_IRUSR|S_IWUSR);  // 读写打开，并截断
+		    if(-1==fd)  return; // 文件打开失败
+		    char read_buffer[20];
+		    char write_buffer[20];
+		    strcpy(write_buffer,"123456789"); // write_buffer 填充数字
+		
+		    // 写文件，期望写 10 个字节
+		    My_write(fd,write_buffer,10);
+		    print_current_offset(fd);
+		    My_pread(fd,read_buffer,5,0 );// 读文件，期望读  5 个字节,从 偏移为 0 开始
+		    print_current_offset(fd);
+		    My_pwrite(fd,write_buffer,10,8);// 写文件，期望写 10 个字节，从 偏移为 8 开始
+		    print_current_offset(fd);
+		    close(fd);
+		    M_TRACE("---------  End test_pread_pwrite()  ---------\n\n");
+		}
+			
  	 ![pread_pwrite](../imgs/file_IO/pread_pwrite.JPG) 
 
 4. `dup/dup2`：复制一个现有的文件描述符：
 
-	```
-	#include<unistd.h>
-	int dup(int fd);
-	int dup2(int fd,int fd2);
-	```
+	
+		#include<unistd.h>
+		int dup(int fd);
+		int dup2(int fd,int fd2);
+	
 
 	- 参数：
 		- `fd`：被复制的文件描述符（已被打开）
@@ -374,20 +374,20 @@ void test_pread_pwrite()
 
 	示例：在 `main`函数中调用`test_dup_dup2`函数:
 
-	```
-void test_dup_dup2()
-{
-    M_TRACE("---------  Begin test_dup_dup2()  ---------\n");
-    My_dup(0);  // fd 0 已经被打开的
-    My_dup(100); // fd 100 未被打开
-    My_dup2(0,0);  // fd 0 已经被打开的
-    My_dup2(100,100);  // fd 100 未被打开
-    My_dup2(0,100); // fd 0 已经被打开的, fd 100 未被打开
-    My_dup2(101,0); // fd 0 已经被打开的, fd 100 未被打开
-    M_TRACE("---------  End test_dup_dup2()  ---------\n\n");
-}
+	
+		void test_dup_dup2()
+		{
+		    M_TRACE("---------  Begin test_dup_dup2()  ---------\n");
+		    My_dup(0);  // fd 0 已经被打开的
+		    My_dup(100); // fd 100 未被打开
+		    My_dup2(0,0);  // fd 0 已经被打开的
+		    My_dup2(100,100);  // fd 100 未被打开
+		    My_dup2(0,100); // fd 0 已经被打开的, fd 100 未被打开
+		    My_dup2(101,0); // fd 0 已经被打开的, fd 100 未被打开
+		    M_TRACE("---------  End test_dup_dup2()  ---------\n\n");
+		}
 
-	```
+	
 
   	![dup_dup2](../imgs/file_IO/dup_dup2.JPG) 
 
@@ -395,12 +395,12 @@ void test_dup_dup2()
 	- 当内核需要重用缓冲区来存方其他数据时，它会把所有延迟写的数据库写入磁盘
 	- 你也可以调用下列函数来显式的将延迟写的数据库写入磁盘
 
-	```
-	#include<unistd.h>
-	int fsync(int fd);
-	int fdatasync(int fd);
-	void sync(void);
-	```
+	
+			#include<unistd.h>
+			int fsync(int fd);
+			int fdatasync(int fd);
+			void sync(void);
+	
 
 	- 参数（前两个函数）：
 		- `fd`：指定的打开的文件描述符
@@ -417,10 +417,10 @@ void test_dup_dup2()
 
 6. `fcntl`函数：改变已经打开的文件的属性
 
-	```
-	#include<fcntl.h>
-	int fcntl(int fd,int cmd,.../* int arg */);
-	```
+	
+		#include<fcntl.h>
+		int fcntl(int fd,int cmd,.../* int arg */);
+	
 
 	- 参数：
 		- `fd`：已打开文件的描述符
@@ -444,38 +444,38 @@ void test_dup_dup2()
 
 	示例：在 `main`函数中调用`test_fcntl()`函数:
 	
-	```
-void test_fcntl()
-{
-    M_TRACE("---------  Begin test_fcntl()  ---------\n");
-    int fd=openat(AT_FDCWD,"test.txt",O_WRONLY|O_CREAT,S_IRUSR|S_IWUSR);;
-    if(-1==fd) // 打开文件失败
-        return ;
-    //测试 My_fcntl_GETFD 和 My_fcntl_DUPFD、My_fcntl_DUPFD_CLOEXEC
-    My_fcntl_GETFD(My_fcntl_DUPFD(fd,10));
-    My_fcntl_GETFD(My_fcntl_DUPFD(fd,0));
-    My_fcntl_GETFD(My_fcntl_DUPFD_CLOEXEC(fd,10));
-    My_fcntl_GETFD(My_fcntl_DUPFD_CLOEXEC(fd,0));
-    // 测试 My_fcntl_GETFD、My_fcntl_SETFD
-    My_fcntl_GETFD(fd);
-    My_fcntl_SETFD(fd,~FD_CLOEXEC);
-    My_fcntl_GETFD(fd);
-    My_fcntl_SETFD(fd,FD_CLOEXEC);
-    My_fcntl_GETFD(fd);
-    // 测试 My_fcntl_GETFL、My_fcntl_SETFL
-    print_fl(fd,My_fcntl_GETFL(fd));
-    My_fcntl_SETFL(fd,O_RDWR);
-    print_fl(fd,My_fcntl_GETFL(fd));
-    My_fcntl_SETFL(fd,O_RDONLY|O_NONBLOCK);
-    print_fl(fd,My_fcntl_GETFL(fd));
-    // 测试 My_fcntl_GETOWN、My_fcntl_SETOWN
-    My_fcntl_GETOWN(fd);
-    My_fcntl_SETOWN(fd,1);
-    My_fcntl_GETOWN(fd);
-    close(fd);
-    M_TRACE("---------  End test_fcntl()  ---------\n\n");
-}
-	```
+	
+		void test_fcntl()
+		{
+		    M_TRACE("---------  Begin test_fcntl()  ---------\n");
+		    int fd=openat(AT_FDCWD,"test.txt",O_WRONLY|O_CREAT,S_IRUSR|S_IWUSR);;
+		    if(-1==fd) // 打开文件失败
+		        return ;
+		    //测试 My_fcntl_GETFD 和 My_fcntl_DUPFD、My_fcntl_DUPFD_CLOEXEC
+		    My_fcntl_GETFD(My_fcntl_DUPFD(fd,10));
+		    My_fcntl_GETFD(My_fcntl_DUPFD(fd,0));
+		    My_fcntl_GETFD(My_fcntl_DUPFD_CLOEXEC(fd,10));
+		    My_fcntl_GETFD(My_fcntl_DUPFD_CLOEXEC(fd,0));
+		    // 测试 My_fcntl_GETFD、My_fcntl_SETFD
+		    My_fcntl_GETFD(fd);
+		    My_fcntl_SETFD(fd,~FD_CLOEXEC);
+		    My_fcntl_GETFD(fd);
+		    My_fcntl_SETFD(fd,FD_CLOEXEC);
+		    My_fcntl_GETFD(fd);
+		    // 测试 My_fcntl_GETFL、My_fcntl_SETFL
+		    print_fl(fd,My_fcntl_GETFL(fd));
+		    My_fcntl_SETFL(fd,O_RDWR);
+		    print_fl(fd,My_fcntl_GETFL(fd));
+		    My_fcntl_SETFL(fd,O_RDONLY|O_NONBLOCK);
+		    print_fl(fd,My_fcntl_GETFL(fd));
+		    // 测试 My_fcntl_GETOWN、My_fcntl_SETOWN
+		    My_fcntl_GETOWN(fd);
+		    My_fcntl_SETOWN(fd,1);
+		    My_fcntl_GETOWN(fd);
+		    close(fd);
+		    M_TRACE("---------  End test_fcntl()  ---------\n\n");
+		}
+	
 
  	 ![fcntl](../imgs/file_IO/fcntl.JPG) 
 

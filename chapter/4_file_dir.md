@@ -3,13 +3,13 @@
 ## 一、 stat 结构和权限相关
 1. 四个`stat`函数：返回文件或者目录的信息结构：
 
-	```
-	#include<sys/stat.h>
-	int stat(const char * restrict pathname, struct stat*restrict buf);
-	int fstat(int fd, struct stat* buf);
-	int lstat(const char* restrict pathname,struct stat *restrict buf);
-	int fstatat(int fd,const char*restrict pathname,struct stat*restrict buf,int flag);
-	```
+	
+		#include<sys/stat.h>
+		int stat(const char * restrict pathname, struct stat*restrict buf);
+		int fstat(int fd, struct stat* buf);
+		int lstat(const char* restrict pathname,struct stat *restrict buf);
+		int fstatat(int fd,const char*restrict pathname,struct stat*restrict buf,int flag);
+	
 
 	- 参数：
 		- `pathname`：文件或者目录的名字
@@ -42,32 +42,32 @@
 
 2. `stat`数据结构：其定义可能与具体操作系统相关，但是基本形式为：
 
-	```
-	struct stat{
-	mode_t 			st_mode; 	//文件权限和类型信息
-	ino_t 			st_ino;		//i-node 号
-	dev_t 			st_dev;		// 设备号
-	dev_t 			st_rdev;	// 特殊文件的设备号
-	nlink_t 		st_nlink;	// 硬链接数量
-	uid_t 			st_uid;		// owner 的用户ID
-	gid_t 			st_gid;		// owner 的组ID
-	off_t 			st_size;	//对普通文件，它是文件字节大小
-	struct timespec st_atime;	// 上次访问时间
-	struct timespec st_mtile;	// 上次修改时间
-	struct timespec st_ctime;	// 上次文件状态改变的时间
-	blksize_t 		st_blksize;	// 最佳的 I/O block 大小
-	blkcnt_t 		st_blocks;	//分配的磁盘块数量
-	}
-	```
+	
+		struct stat{
+		mode_t 			st_mode; 	//文件权限和类型信息
+		ino_t 			st_ino;		//i-node 号
+		dev_t 			st_dev;		// 设备号
+		dev_t 			st_rdev;	// 特殊文件的设备号
+		nlink_t 		st_nlink;	// 硬链接数量
+		uid_t 			st_uid;		// owner 的用户ID
+		gid_t 			st_gid;		// owner 的组ID
+		off_t 			st_size;	//对普通文件，它是文件字节大小
+		struct timespec st_atime;	// 上次访问时间
+		struct timespec st_mtile;	// 上次修改时间
+		struct timespec st_ctime;	// 上次文件状态改变的时间
+		blksize_t 		st_blksize;	// 最佳的 I/O block 大小
+		blkcnt_t 		st_blocks;	//分配的磁盘块数量
+		}
+	
 
 	其中`timespec`结构与具体操作系统相关，但是至少包括下面两个字段：
 
-	```
-	struct timespec{
-	time_t tv_sec;	// 秒
-	long tv_nsec; 	//纳秒
-		}
-```
+	
+		struct timespec{
+		time_t tv_sec;	// 秒
+		long tv_nsec; 	//纳秒
+			}
+
 
 3. UNIX 文件类型：
 	- 普通文件：最常见的文件类型，这种文件包含了某种形式的数据。至于这种数据是二进制还是文本，对内核无区别。普通文件的内容解释由具体的应用程序进行。
@@ -164,24 +164,24 @@
 
 8. `stat`和`lstat`示例：在`main`函数中调用`test_stat_lstat`函数：
 
-	```
-void test_stat_lstat()
-{
-    M_TRACE("---------  Begin test_stat_lstat()  ---------\n");
-    Stat stat_buf;
-    My_stat("/home/huaxz1986/APUE/main.c",&stat_buf); // regular file
-    My_stat("/home/huaxz1986/APUE/",&stat_buf); // dir file
-    My_stat("/dev/loop0",&stat_buf); // block file
-    My_stat("/dev/mem",&stat_buf); // char file
-    My_lstat("/dev/cdrom",&stat_buf); // link file
-    My_stat("/run/systemd/initctl/fifo",&stat_buf); // fifo file
-
-    int fd=My_open_with_mode("test_stat",O_WRONLY|O_CREAT,S_IRUSR); // create a new file
-    close(fd);
-    My_stat("test_stat",&stat_buf); // regular file
-    M_TRACE("---------  End test_stat_lstat()  ---------\n\n");
-}
-	```
+	
+		void test_stat_lstat()
+		{
+		    M_TRACE("---------  Begin test_stat_lstat()  ---------\n");
+		    Stat stat_buf;
+		    My_stat("/home/huaxz1986/APUE/main.c",&stat_buf); // regular file
+		    My_stat("/home/huaxz1986/APUE/",&stat_buf); // dir file
+		    My_stat("/dev/loop0",&stat_buf); // block file
+		    My_stat("/dev/mem",&stat_buf); // char file
+		    My_lstat("/dev/cdrom",&stat_buf); // link file
+		    My_stat("/run/systemd/initctl/fifo",&stat_buf); // fifo file
+		
+		    int fd=My_open_with_mode("test_stat",O_WRONLY|O_CREAT,S_IRUSR); // create a new file
+		    close(fd);
+		    My_stat("test_stat",&stat_buf); // regular file
+		    M_TRACE("---------  End test_stat_lstat()  ---------\n\n");
+		}
+	
 
   	![stat](../imgs/file_dir/stat.JPG) 
 
@@ -189,11 +189,11 @@ void test_stat_lstat()
 
 1. 当用`open()`函数打开一个文件时，内核根据进程的有效用户ID和有效组ID为依据来执行访问权限测试。但是如果你想测试进程的实际用户ID和实际组ID是否能够通过权限测试时，可以用下列两个函数：
 
-	```
-	#include<unistd.h>
-	int access(const char *pathname,int mode);
-	int faccess(int fd,const char*pathname,int mode,int flag);
-	```
+	
+		#include<unistd.h>
+		int access(const char *pathname,int mode);
+		int faccess(int fd,const char*pathname,int mode,int flag);
+	
 	- 参数：
 		- `pathname`：文件路径名
 		- `mode`：指定要测试的模式。
@@ -218,10 +218,10 @@ void test_stat_lstat()
 
 2. 文件模式创建屏蔽字：当进程创建一个新的目录或者文件时，会使用文件模式创建屏蔽字。在文件模式创建屏蔽字中为1的位，在文件`mode`中的相应位一定被关闭。设置进程的文件模式创建屏蔽字的函数为：
 
-	```
-	#include<sys/stat.h>
-	mode_t umask(mode_t cmask);
-	```
+	
+		#include<sys/stat.h>
+		mode_t umask(mode_t cmask);
+	
 
 	- 参数： 
 		- `cmask`：要设置的新的文件模式创建屏蔽字
@@ -234,19 +234,19 @@ void test_stat_lstat()
 
 3. 示例：测试 `umask`和`access`函数的用法：在`main`函数中调用`test_access_umask` 函数：
 
-	```
-void test_access_umask()
-{
-    My_access("/no/exist",F_OK); // no exist
-    My_access("/etc/shadow",W_OK);// can not write
-    My_access("/home/huaxz1986/APUE",W_OK); // can write
-
-    print_new_file_mode("test_umask1") ;// old umask
-    //new umask
-    My_umask(S_IRUSR|S_IRGRP|S_IROTH);
-    print_new_file_mode("test_umask2") ;// new umask
-}
-	```
+	
+		void test_access_umask()
+		{
+		    My_access("/no/exist",F_OK); // no exist
+		    My_access("/etc/shadow",W_OK);// can not write
+		    My_access("/home/huaxz1986/APUE",W_OK); // can write
+		
+		    print_new_file_mode("test_umask1") ;// old umask
+		    //new umask
+		    My_umask(S_IRUSR|S_IRGRP|S_IROTH);
+		    print_new_file_mode("test_umask2") ;// new umask
+		}
+	
   	![access_umask](../imgs/file_dir/access_umask.JPG) 
 
 	可以看到：
@@ -259,12 +259,12 @@ void test_access_umask()
 
 1. 修改文件的现有的访问权限：
 
-	```
-	#include<sys/stat.h>
-	int chmod(const char*pathname,mode_t mode);
-	int fchmod(int fd,mode_t mode);
-	int fchmodat(int fd,const char*pathname,mode_t mode,int flag);
-	```
+	
+		#include<sys/stat.h>
+		int chmod(const char*pathname,mode_t mode);
+		int fchmod(int fd,mode_t mode);
+		int fchmodat(int fd,const char*pathname,mode_t mode,int flag);
+	
 
 	- 参数：
 		- `pathname`：文件路径名
@@ -317,13 +317,13 @@ void test_access_umask()
 
 3. 修改用户的ID和组ID：
 
-	```
-	#include<unistd.h>
-	int chown(const char *pathname,uid_t owner,gid_t group);
-	int fchown(int fd,uid_t owner,gid_t group);
-	int fchownat(int fd,const char *pathname,uid_t owner,gid_t group,int flag);
-	int lchown(const char *pathname,uid_t owner,gid_t group);
-	```
+	
+		#include<unistd.h>
+		int chown(const char *pathname,uid_t owner,gid_t group);
+		int fchown(int fd,uid_t owner,gid_t group);
+		int fchownat(int fd,const char *pathname,uid_t owner,gid_t group,int flag);
+		int lchown(const char *pathname,uid_t owner,gid_t group);
+	
 	- 参数：
 		- `pathname`：文件路径名
 		- `owner`：文件修改后的用户ID
@@ -352,17 +352,17 @@ void test_access_umask()
 
 4. 示例：在 `main` 函数中调用`test_chmod_chown` 函数：
 
-	```
-void test_chmod_chown()
-{
-    const char *file_name="test";
-    Stat buf;
-
-    My_stat(file_name,&buf);
-    My_chmod(file_name,S_IRWXU);
-    My_chown(file_name,1,1);
-}
-	```
+	
+	void test_chmod_chown()
+	{
+	    const char *file_name="test";
+	    Stat buf;
+	
+	    My_stat(file_name,&buf);
+	    My_chmod(file_name,S_IRWXU);
+	    My_chown(file_name,1,1);
+	}
+	
 
   	![chmod_chown](../imgs/file_dir/chmod_chown.JPG) 
 
@@ -383,11 +383,11 @@ void test_chmod_chown()
 
 2. 截断文件：通常可以用带`O_TRUNC`选项的`open()`函数来清空一个文件（截断到0）。但是如果希望截断文件使得文件大小为指定字节数，则可以用下列的函数：
 
-	```
-	#include<unistd.h>
-	int truncate(const char*pathname,off_t length);
-	int ftruncate(int fd,off_t length);
-	```
+	
+		#include<unistd.h>
+		int truncate(const char*pathname,off_t length);
+		int ftruncate(int fd,off_t length);
+	
 	- 参数：
 		- `pathname`：文件路径名
 		- `length`：文件修改后大小（字节数）
@@ -402,35 +402,35 @@ void test_chmod_chown()
 
 3. 示例：在`main`函数中调用`test_truncate_size`函数：
 
-	```
-void test_truncate_size()
-{
-    M_TRACE("---------  Begin test_truncate_size()  ---------\n");
-    char buffer[100];
-    int len;
-    int fd=My_open_with_mode("test",O_CREAT|O_TRUNC|O_RDWR,S_IRWXU);
-    My_write(fd,"abcdefg",8);
-    print_file_size("test");  // 打印文件大小
-    //****  扩张文件 *******//
-    My_truncate("test",20);  // 扩张文件
-    My_lseek(fd,0,SEEK_SET);  // 读取之前先调整文件读取位置
-    len=My_read(fd,buffer,20);
-    printf("Read:");
-    for (int i=0;i<len;i++)  // 打印读取内容
-        printf("\t0x%x,",buffer[i]);
-    printf("\n");
-    //****  截断文件 *******//
-    My_truncate("test",5);   // 截断文件
-    My_lseek(fd,0,SEEK_SET);  // 读取之前先调整文件读取位置
-    len=My_read(fd,buffer,5);
-    printf("Read:");
-    for (int i=0;i<len;i++)
-        printf("\t0x%x,",buffer[i]);
-    printf("\n");
-    close(fd);
-    M_TRACE("---------  End test_truncate_size()  ---------\n");
-}
-	```
+	
+		void test_truncate_size()
+		{
+		    M_TRACE("---------  Begin test_truncate_size()  ---------\n");
+		    char buffer[100];
+		    int len;
+		    int fd=My_open_with_mode("test",O_CREAT|O_TRUNC|O_RDWR,S_IRWXU);
+		    My_write(fd,"abcdefg",8);
+		    print_file_size("test");  // 打印文件大小
+		    //****  扩张文件 *******//
+		    My_truncate("test",20);  // 扩张文件
+		    My_lseek(fd,0,SEEK_SET);  // 读取之前先调整文件读取位置
+		    len=My_read(fd,buffer,20);
+		    printf("Read:");
+		    for (int i=0;i<len;i++)  // 打印读取内容
+		        printf("\t0x%x,",buffer[i]);
+		    printf("\n");
+		    //****  截断文件 *******//
+		    My_truncate("test",5);   // 截断文件
+		    My_lseek(fd,0,SEEK_SET);  // 读取之前先调整文件读取位置
+		    len=My_read(fd,buffer,5);
+		    printf("Read:");
+		    for (int i=0;i<len;i++)
+		        printf("\t0x%x,",buffer[i]);
+		    printf("\n");
+		    close(fd);
+		    M_TRACE("---------  End test_truncate_size()  ---------\n");
+		}
+			
 
   	![truncate](../imgs/file_dir/truncate.JPG) 
 
@@ -484,11 +484,11 @@ void test_truncate_size()
 
 4. `link/linkat`函数：创建一个指向现有文件的硬链接
 
-	```
-	#include<unistd.h>
-	int link(const char *existingpath,const char *newpath);
-	int linkat(int efd,const char*existingpath,int nfd,const char *newpath,int flag);
-	```
+	
+		#include<unistd.h>
+		int link(const char *existingpath,const char *newpath);
+		int linkat(int efd,const char*existingpath,int nfd,const char *newpath,int flag);
+	
 
 	- 参数：
 		- `existingpath`：现有的文件的文件名（新创建的硬链接指向它）
@@ -522,11 +522,11 @@ void test_truncate_size()
 
 5. `unlink`函数：删除一个现有的目录项
 
-	```
-	#include<unistd.h>
-	int unlink(const char*pathname);
-	int unlinkat(int fd,const char*pathname,int flag);
-	```
+	
+		#include<unistd.h>
+		int unlink(const char*pathname);
+		int unlinkat(int fd,const char*pathname,int flag);
+	
 
 	- 参数：
 		- `pathname`：现有的、待删除的目录项的完整路径名。
@@ -564,26 +564,26 @@ void test_truncate_size()
 
 6. `link/unlink`实例：在`main`函数中调用`test_link_unlink`函数
 
-	```
-void test_link_unlink()
-{
-    M_TRACE("---------  Begin test_link_unlink()  ---------\n");
-    assert(prepare_file("test",NULL,0,S_IRWXU)==0);
-    un_prepare_file("test1");
-
-    print_file_link_num("test");
-    My_link("test","test1");
-    My_unlink("test1");
-    print_file_link_num("test");
-    My_unlink("test1");
-    My_unlink("test");
-    print_file_link_num("test");
-
-    un_prepare_file("test");
-    un_prepare_file("test1");
-    M_TRACE("---------  End test_link_unlink()  ---------\n\n");
-}
-	```
+	
+		void test_link_unlink()
+		{
+		    M_TRACE("---------  Begin test_link_unlink()  ---------\n");
+		    assert(prepare_file("test",NULL,0,S_IRWXU)==0);
+		    un_prepare_file("test1");
+		
+		    print_file_link_num("test");
+		    My_link("test","test1");
+		    My_unlink("test1");
+		    print_file_link_num("test");
+		    My_unlink("test1");
+		    My_unlink("test");
+		    print_file_link_num("test");
+		
+		    un_prepare_file("test");
+		    un_prepare_file("test1");
+		    M_TRACE("---------  End test_link_unlink()  ---------\n\n");
+		}
+	
 	  ![link_unlink](../imgs/file_dir/link_unlink.JPG) 
 
 	可以看到：
@@ -593,10 +593,10 @@ void test_link_unlink()
 
 7. `remove`函数：解除对一个目录或者文件的链接。
 
-	```
-	#include<stdio.h>
-	int remove(const char *pathname);
-	```
+	
+		#include<stdio.h>
+		int remove(const char *pathname);
+	
 	- 参数
 		- `pathname`：文件名或者目录名
 	- 返回值：
@@ -607,11 +607,11 @@ void test_link_unlink()
 
 8. `rename/renameat`函数：重命名文件或目录
 
-	```
-	#inluce<stdio.h>
-	int rename(const char*oldname,const char *newname);
-	int renameat(int oldfd,const char*oldname,int newfd,const char* newname);
-	```
+	
+		#inluce<stdio.h>
+		int rename(const char*oldname,const char *newname);
+		int renameat(int oldfd,const char*oldname,int newfd,const char* newname);
+	
 
 	- 参数：
 		- `oldname`：现有的文件名或者目录名
@@ -650,11 +650,11 @@ void test_link_unlink()
 
 9. `symlink/symlinkat`函数：创建一个符号链接
 
-	```
-	#include<unistd.h>
-	int symlink(const char*actualpath,const char *sympath);
-	int symlinkat(const char*actualpath,int fd,const char*sympath);
-	```
+	
+		#include<unistd.h>
+		int symlink(const char*actualpath,const char *sympath);
+		int symlinkat(const char*actualpath,int fd,const char*sympath);
+	
 
 	- 参数：
 		- `actualpath`：符号链接要指向的文件或者目录（可能尚不存在）
@@ -676,12 +676,12 @@ void test_link_unlink()
 10. `readlink/readlinkat`函数：打开符号链接本身
 	> `open`函数是跟随链接的，即打开符号链接指向的文件
 
-	```
-	#include<unistd.h>
-	ssize_t readlink(const char *restrict pathname,char *restrict buf,size_t bufsize);
-	ssize_t readlinkat(int fd, const char* restrict pathname,char *restrict buf,
-		size_t bufsize);
-	```
+	
+		#include<unistd.h>
+		ssize_t readlink(const char *restrict pathname,char *restrict buf,size_t bufsize);
+		ssize_t readlinkat(int fd, const char* restrict pathname,char *restrict buf,
+			size_t bufsize);
+	
 	- 参数：
 		- `pathname`：符号链接的名字
 		- `buf`：存放符号链接内容的缓冲区
@@ -706,27 +706,27 @@ void test_link_unlink()
 
 11. 符号链接示例：在`main`函数中调用`test_symlink_readlink`函数：
 
-	```
-void test_symlink_readlink()
-{
-    M_TRACE("---------  Begin test_symlink_readlink()  ---------\n");
-    assert(prepare_file("test","abcdefg0123456",14,S_IRWXU)==0); // 准备 test 文件
-    print_file_type("test"); // 查看 test 文件类型
+	
+		void test_symlink_readlink()
+		{
+		    M_TRACE("---------  Begin test_symlink_readlink()  ---------\n");
+		    assert(prepare_file("test","abcdefg0123456",14,S_IRWXU)==0); // 准备 test 文件
+		    print_file_type("test"); // 查看 test 文件类型
+		
+		    My_symlink("test","test_symlink"); // 创建软连接 test_symlink 到 test
+		    print_file_type("test_symlink"); // 查看 test_symlink 文件类型
+		    print_link_file("test_symlink"); // 由于open 是链接跟随，所以这里打印 test 的内容
+		
+		    char buffer[128];
+		    My_readlink("test_symlink",buffer,128);
+		
+		    un_prepare_file("test"); // 删除 test 文件
+		    un_prepare_file("test_symlink"); // 删除 test_symlink 文件
+		    M_TRACE("---------  End test_symlink_readlink()  ---------\n\n");
+		}
 
-    My_symlink("test","test_symlink"); // 创建软连接 test_symlink 到 test
-    print_file_type("test_symlink"); // 查看 test_symlink 文件类型
-    print_link_file("test_symlink"); // 由于open 是链接跟随，所以这里打印 test 的内容
 
-    char buffer[128];
-    My_readlink("test_symlink",buffer,128);
-
-    un_prepare_file("test"); // 删除 test 文件
-    un_prepare_file("test_symlink"); // 删除 test_symlink 文件
-    M_TRACE("---------  End test_symlink_readlink()  ---------\n\n");
-}
-
-
-	```
+	
 
 	![symlink](../imgs/file_dir/symlink.JPG)  
 
@@ -749,13 +749,13 @@ void test_symlink_readlink()
 
 2. `futimens/utimensat/utimes`函数：修改文件的访问和修改时间
 
-	```
-	#include<sys/stat.h>
-	int futimens(int fd,const struct timespec times[2]);
-	int utimensat(int fd,const char*path,const struct timespec times[2],int flag);
-	#include<sys/time.h>
-	int utimes(const char*pathname,const struct timeval times[2]);
-	```
+	
+		#include<sys/stat.h>
+		int futimens(int fd,const struct timespec times[2]);
+		int utimensat(int fd,const char*path,const struct timespec times[2],int flag);
+		#include<sys/time.h>
+		int utimes(const char*pathname,const struct timeval times[2]);
+	
 
 	- 参数：
 
@@ -808,29 +808,29 @@ void test_symlink_readlink()
 
 3. 示例：在 `main`函数中调用`test_utimes`函数： 
 
-	```
-void test_utimes()
-{
-    M_TRACE("---------  Begin test_utimes()  ---------\n");
-    assert(prepare_file("test",NULL,0,S_IRWXU)==0); // 准备 test 文件
-    print_file_time("test");
-    sleep(2);
-    My_access("test",F_OK); // 访问文件，但不修改文件
-    print_file_time("test");
-    sleep(2);
-    My_chmod("test",S_IRUSR|S_IWUSR);//  修改文件状态
-    print_file_time("test");
-
-    struct timeval times[2];
-    times[0].tv_usec=10;
-    times[1].tv_sec=10;
-    times[1].tv_usec=10;
-    My_utimes("test",times);
-
-    un_prepare_file("test"); // 删除 test 文件
-    M_TRACE("---------  End test_utimes()  ---------\n\n");
-}
-	```
+	
+		void test_utimes()
+		{
+		    M_TRACE("---------  Begin test_utimes()  ---------\n");
+		    assert(prepare_file("test",NULL,0,S_IRWXU)==0); // 准备 test 文件
+		    print_file_time("test");
+		    sleep(2);
+		    My_access("test",F_OK); // 访问文件，但不修改文件
+		    print_file_time("test");
+		    sleep(2);
+		    My_chmod("test",S_IRUSR|S_IWUSR);//  修改文件状态
+		    print_file_time("test");
+		
+		    struct timeval times[2];
+		    times[0].tv_usec=10;
+		    times[1].tv_sec=10;
+		    times[1].tv_usec=10;
+		    My_utimes("test",times);
+		
+		    un_prepare_file("test"); // 删除 test 文件
+		    M_TRACE("---------  End test_utimes()  ---------\n\n");
+		}
+	
 
 	  ![utimes](../imgs/file_dir/utimes.JPG) 	
 	可以看到：
@@ -840,11 +840,11 @@ void test_utimes()
 
 1. `mkdir/mkdirat`函数创建一个空目录：
 
-	```
-	#include<sys/stat.h>
-	int mkdir(const char*pathname,mode_t mode);
-	int mkdirat(int fd,const char *pathname,mode_t mode);
-	```
+	
+		#include<sys/stat.h>
+		int mkdir(const char*pathname,mode_t mode);
+		int mkdirat(int fd,const char *pathname,mode_t mode);
+	
 
 	- 参数：
 		- `pathname`:被创建目录的名字
@@ -866,10 +866,10 @@ void test_utimes()
 
 2. `rmdir`函数：删除一个空目录
 
-	```
-	#include<unistd.h>
-	int rmdir(const char *pathname);
-	```
+	
+		#include<unistd.h>
+		int rmdir(const char *pathname);
+	
 
 	- 参数：
 		- `pathname`：待删除的空目录的名字
@@ -886,16 +886,16 @@ void test_utimes()
 3. 读、写目录：对于某个目录具有访问权限的任何用户都可以读该目录。但是为了防止文件系统产生混乱，只有内核才能写目录。
 	> 一个目录的写权限和执行权限位决定了在该目录中能否创建新文件以及删除文件，它们并不能写目录本身
 
-	```
-	#include<dirent.h>
-	DIR *opendir(const char *pathname);
-	DIR *fdopendir(int fd);
-	struct dirent *readdir(DIR *dp);
-	void rewinddir(DIR *dp);
-	int closedir(DIR *dp);
-	long telldir(DIR *dp);
-	void seekdir(DIR *dp,long loc);
-	```
+	
+		#include<dirent.h>
+		DIR *opendir(const char *pathname);
+		DIR *fdopendir(int fd);
+		struct dirent *readdir(DIR *dp);
+		void rewinddir(DIR *dp);
+		int closedir(DIR *dp);
+		long telldir(DIR *dp);
+		void seekdir(DIR *dp,long loc);
+	
 
 	各个函数：
 	- `opendir`：打开目录。
@@ -921,12 +921,12 @@ void test_utimes()
 	对于 `DIR`结构，它是一个内部结构。起作用类似于 `FILE`结构。
 	对于`dirent`结构，它是定义在`<dirent.h>`头文件中。其与具体操作系统相关。但是它至少定义了两个成员：
 
-	```
-	struct dirent{
-	ino_t d_ino; // i 节点编号
-	char d_name[];// 以 null 结尾的文件名字符串
-	}
-	```
+	
+		struct dirent{
+		ino_t d_ino; // i 节点编号
+		char d_name[];// 以 null 结尾的文件名字符串
+		}
+		
 	> `d_name`项的大小并没有指定，但必须保证它能包含至少 `NAME_MAX`个字节（不包含终止`null`字节）
 
 	目录中各目录项的顺序与操作系统有关。它们通常不按照字母顺序排列
@@ -936,12 +936,12 @@ void test_utimes()
 
 	与当前工作目录相关的有三个函数：
 
-	```
-	#include<unistd.h>
-	int chdir(const char *pathname);
-	int fchdir(int fd);
-	char *getcwd(char *buf,size_t size);
-	```
+	
+		#include<unistd.h>
+		int chdir(const char *pathname);
+		int fchdir(int fd);
+		char *getcwd(char *buf,size_t size);
+	
 
 	各个函数：
 	- `chdir`：更改当前工作目录。
@@ -957,41 +957,41 @@ void test_utimes()
 
 5. 示例： 在`main`函数中调用 `test_dir_operations` 函数：
 
-	```
-void test_dir_operations()
-{
-    M_TRACE("---------  Begin test_dir_operations()  ---------\n");
-    //*** 创建目录 ****
-    My_mkdir("test",S_IRWXU);
-    My_mkdir("test/test1",S_IRWXU);
-
-    //*** 创建文件
-    prepare_file("test/tfile_1",NULL,0,S_IRWXU);
-    prepare_file("test/tfile_2",NULL,0,S_IRWXU);
-    prepare_file("test/tfile_3",NULL,0,S_IRWXU);
-    prepare_file("test/test1/tfile_11",NULL,0,S_IRWXU);
-    prepare_file("test/test1/tfile_22",NULL,0,S_IRWXU);
-    prepare_file("test/test1/tfile_33",NULL,0,S_IRWXU);
-
-    print_dir("test");
-
-    print_cwd();
-    My_chdir("test");
-    print_cwd();
-    My_chdir("../"); // 切换回来，否则后面的删除文件都会失败（因为都是相对路径）
-    print_cwd();
-    //***** 清理
-    My_rmdir("test"); // 目录非空，删除失败！
-    un_prepare_file("test/tfile_1");
-    un_prepare_file("test/tfile_2");
-    un_prepare_file("test/tfile_3");
-    un_prepare_file("test/test1/tfile_11");
-    un_prepare_file("test/test1/tfile_22");
-    un_prepare_file("test/test1/tfile_33");
-    My_rmdir("test/test1"); // 必须非空才能删除成功
-    My_rmdir("test"); // 必须非空才能删除成功
-    M_TRACE("---------  End test_dir_operations()  ---------\n\n");
-}
-	```
+	
+		void test_dir_operations()
+		{
+		    M_TRACE("---------  Begin test_dir_operations()  ---------\n");
+		    //*** 创建目录 ****
+		    My_mkdir("test",S_IRWXU);
+		    My_mkdir("test/test1",S_IRWXU);
+		
+		    //*** 创建文件
+		    prepare_file("test/tfile_1",NULL,0,S_IRWXU);
+		    prepare_file("test/tfile_2",NULL,0,S_IRWXU);
+		    prepare_file("test/tfile_3",NULL,0,S_IRWXU);
+		    prepare_file("test/test1/tfile_11",NULL,0,S_IRWXU);
+		    prepare_file("test/test1/tfile_22",NULL,0,S_IRWXU);
+		    prepare_file("test/test1/tfile_33",NULL,0,S_IRWXU);
+		
+		    print_dir("test");
+		
+		    print_cwd();
+		    My_chdir("test");
+		    print_cwd();
+		    My_chdir("../"); // 切换回来，否则后面的删除文件都会失败（因为都是相对路径）
+		    print_cwd();
+		    //***** 清理
+		    My_rmdir("test"); // 目录非空，删除失败！
+		    un_prepare_file("test/tfile_1");
+		    un_prepare_file("test/tfile_2");
+		    un_prepare_file("test/tfile_3");
+		    un_prepare_file("test/test1/tfile_11");
+		    un_prepare_file("test/test1/tfile_22");
+		    un_prepare_file("test/test1/tfile_33");
+		    My_rmdir("test/test1"); // 必须非空才能删除成功
+		    My_rmdir("test"); // 必须非空才能删除成功
+		    M_TRACE("---------  End test_dir_operations()  ---------\n\n");
+		}
+	
 
 	  ![dir_function](../imgs/file_dir/dir_function.JPG) 

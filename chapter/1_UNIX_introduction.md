@@ -60,12 +60,12 @@
 
 2. `strerror/perror`函数:用于处理错误信息
 
-	```
-	#include<string.h>
-	char *strerror(int errnum);
-	#include<stdio.h>
-	void perror(const char*msg);
-	```
+	
+		#include<string.h>
+		char *strerror(int errnum);
+		#include<stdio.h>
+		void perror(const char*msg);
+	
 	- strerror: 将 `errnum`（通常就是 `errno`值）映射为一个出错消息字符串，并且返回此字符串的指针
 		- 输入： 一个整数（通常是`errno`的值）
 		- 输出： 出错消息字符串的指针（不需要用户手动分配出错消息字符串的内存）

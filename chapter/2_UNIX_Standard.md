@@ -44,12 +44,12 @@
 
 6. 获取运行时限制：
 
-	```
-	#include<unistd.h>
-	long sysconf(int name); 
-	long pathconf(const char*pathname,int name);
-	long fpathconf(int fd,int name); //fd 为文件描述符
-	```
+	
+		#include<unistd.h>
+		long sysconf(int name); 
+		long pathconf(const char*pathname,int name);
+		long fpathconf(int fd,int name); //fd 为文件描述符
+	
 	
 	- 参数：
 		- `name`：指定的限制值。`name`参数是系统定义的常量
