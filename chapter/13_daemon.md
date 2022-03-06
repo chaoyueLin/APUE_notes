@@ -57,24 +57,24 @@
 
 5. 示例
 
-	```
-#include <stdio.h>
-#include<unistd.h>
-#include<sys/stat.h>
-int main(void)
-{
-    umask(0);
-    if(fork()==0)
-    {// child
-        setsid();
-        chdir("/");
-        for(int i=0;i<FOPEN_MAX;i++)
-            close(i);
-        pause();
-    }
-    return 0;
-}
-	```
+	
+		#include <stdio.h>
+		#include<unistd.h>
+		#include<sys/stat.h>
+		int main(void)
+		{
+			umask(0);
+			if(fork()==0)
+			{// child
+				setsid();
+				chdir("/");
+				for(int i=0;i<FOPEN_MAX;i++)
+					close(i);
+				pause();
+			}
+			return 0;
+		}
+	
 	![daemon](../imgs/daemon/daemon.JPG)
 
 ## 2. 出错记录
@@ -94,13 +94,13 @@ int main(void)
 
 4. `syslog`设施的接口函数如下：
 
-	```
-	#include<syslog.h>
-	void openlog(const char *ident,int option,int facility);
-	void syslog(int priority,const char *format,...);
-	void closelog(void);
-	int setlogmask(int maskpri);
-	```
+	
+		#include<syslog.h>
+		void openlog(const char *ident,int option,int facility);
+		void syslog(int priority,const char *format,...);
+		void closelog(void);
+		int setlogmask(int maskpri);
+	
 	- `openlog`函数用于打开设施。该函数是可选的，如果你不调用`openlog`，则在第一次调用`syslog`时自动调用`openlog`。其参数为：
 		- `ident`：一个前缀字符串。这个字符串将被追加到每条日志消息中。通常用程序的名字来做`ident`
 		- `option`：指定各种选项的位屏蔽。可以为以下常量或者按位或：
@@ -147,66 +147,66 @@ int main(void)
 
 6. 示例：
 
-	```
-#include <stdio.h>
-#include<syslog.h>
-int i=0;
-int levels[8];
-char* level_to_str(int level)
-{
-    switch (level) {
-    case LOG_EMERG:
-        return "LOG_EMERG";
-    case LOG_ALERT:
-        return "LOG_ALERT";
-    case LOG_CRIT:
-        return "LOG_CRIT";
-    case LOG_ERR:
-        return "LOG_ERR";
-    case LOG_WARNING:
-        return "LOG_WARNING";
-    case LOG_NOTICE:
-        return "LOG_NOTICE";
-    case LOG_INFO:
-        return "LOG_INFO";
-    case LOG_DEBUG:
-        return "LOG_DEBUG";
-    default:
-        return "Unkonwn Level";
-    }
-}
-void log(int facility,int level)
-{
-    openlog("Test syslog",0,facility);
-    syslog(level,"log:the %dth log record,level=%s\n",i++,level_to_str(level));
-    closelog();
-}
-void log_2(int facility,int level)
-{
-    syslog(level|facility,"log2:the %dth log record,level=%s\n",i++,
-		level_to_str(level));
-    closelog();
-}
-int main(void)
-{
-    levels[0]=LOG_EMERG;
-    levels[1]=LOG_ALERT;
-    levels[2]=LOG_CRIT;
-    levels[3]=LOG_ERR;
-    levels[4]=LOG_WARNING;
-    levels[5]=LOG_NOTICE;
-    levels[6]=LOG_INFO;
-    levels[7]=LOG_DEBUG;
+	
+		#include <stdio.h>
+		#include<syslog.h>
+		int i=0;
+		int levels[8];
+		char* level_to_str(int level)
+		{
+			switch (level) {
+			case LOG_EMERG:
+				return "LOG_EMERG";
+			case LOG_ALERT:
+				return "LOG_ALERT";
+			case LOG_CRIT:
+				return "LOG_CRIT";
+			case LOG_ERR:
+				return "LOG_ERR";
+			case LOG_WARNING:
+				return "LOG_WARNING";
+			case LOG_NOTICE:
+				return "LOG_NOTICE";
+			case LOG_INFO:
+				return "LOG_INFO";
+			case LOG_DEBUG:
+				return "LOG_DEBUG";
+			default:
+				return "Unkonwn Level";
+			}
+		}
+		void log(int facility,int level)
+		{
+			openlog("Test syslog",0,facility);
+			syslog(level,"log:the %dth log record,level=%s\n",i++,level_to_str(level));
+			closelog();
+		}
+		void log_2(int facility,int level)
+		{
+			syslog(level|facility,"log2:the %dth log record,level=%s\n",i++,
+				level_to_str(level));
+			closelog();
+		}
+		int main(void)
+		{
+			levels[0]=LOG_EMERG;
+			levels[1]=LOG_ALERT;
+			levels[2]=LOG_CRIT;
+			levels[3]=LOG_ERR;
+			levels[4]=LOG_WARNING;
+			levels[5]=LOG_NOTICE;
+			levels[6]=LOG_INFO;
+			levels[7]=LOG_DEBUG;
 
-    setlogmask(0);
-    for(int j=0;j<8;j++)
-    {
-            log(LOG_USER,levels[j]);
-            log_2(LOG_USER,levels[j]);
-    }
-    return 0;
-}
-	```
+			setlogmask(0);
+			for(int j=0;j<8;j++)
+			{
+					log(LOG_USER,levels[j]);
+					log_2(LOG_USER,levels[j]);
+			}
+			return 0;
+		}
+	
 
 	其在`/var/log/syslog`日志记录中的输出如下图所示。可以看到：
 	- 可以不`openlog`而直接调用`syslog`函数，此时`syslog`的第一个参数为`level|facility`（参见`log2`函数）
