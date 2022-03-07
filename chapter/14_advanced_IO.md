@@ -546,7 +546,8 @@
 		- 关闭`fd1,fd2,fd3`中的任何一个时，内核会从该描述符所关联的`v`结点开始，逐个检查`lockf`链表中的各项，并释放由调用进程持有的各把锁。
 		> 内核并不清楚（也不关心）进程`A`是用这三个描述符中的哪个来设置这把锁的
 
-	![lock_descriptor](../imgs/advanced_IO/lock_descriptor.JPG)
+	
+![lock_descriptor](../imgs/advanced_IO/lock_descriptor.JPG)
 
 13. 在文件尾端加锁/解锁时要注意：
 	- 当执行`fcntl(F_SETLK,flockptr)`，而`flockptr->l_type=F_WRLCK`，
